@@ -204,7 +204,7 @@ body {
 
 /* Loading states */
 .loading-shimmer {
-  @apply animate-shimmer;
   background: linear-gradient(90deg, #334155, #475569, #334155);
   background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
 }
