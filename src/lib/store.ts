@@ -1,264 +1,147 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-
-export interface User {
-  name: string;
-  email: string;
-  guest: boolean;
-}
-
-export interface Progress {
-  solved: string[];
-  hintUsage: {
-    easy: number;
-    medium: number;
-    hard: number;
-  };
-}
-
-export interface AISession {
-  chatHistory: Array<{
-    id: string;
-    type: 'user' | 'ai';
-    content: string;
-    level: 'easy' | 'medium' | 'hard';
-    timestamp: Date;
-  }>;
-  aiLevel: 'easy' | 'medium' | 'hard';
-  quotaRemaining: {
-    easy: number;
-    medium: number;
-    hard: number;
-  };
-}
-
-export interface EditorState {
-  content: string;
-  language: string;
-  problemSlug?: string;
-}
-
-export interface Problem {
-  id: string;
-  slug: string;
-  title: string;
-  description: string;
-  difficulty: 'easy' | 'medium' | 'hard';
-  status: 'solved' | 'in-progress' | 'ai-helped' | 'not-started';
-  hints: {
-    easy: string[];
-    medium: string[];
-    hard: string[];
-  };
-  starterCode: string;
-  testCases: Array<{
-    input: string;
-    expectedOutput: string;
-  }>;
-}
+import type { User, AIHelperState, EditorState, UserPreferences } from '@/types';
 
 interface AppState {
   // User state
   user: User | null;
-  setUser: (user: User | null) => void;
-  
-  // Progress state
-  progress: Progress;
-  updateProgress: (updates: Partial<Progress>) => void;
-  markProblemSolved: (problemId: string) => void;
-  useHint: (difficulty: 'easy' | 'medium' | 'hard') => void;
-  
-  // AI session state
-  aiSession: AISession;
-  addChatMessage: (message: Omit<AISession['chatHistory'][0], 'id' | 'timestamp'>) => void;
-  setAILevel: (level: 'easy' | 'medium' | 'hard') => void;
-  
-  // Editor state
-  editorState: EditorState;
-  updateEditorState: (updates: Partial<EditorState>) => void;
+  isAuthenticated: boolean;
   
   // UI state
-  isAuthModalOpen: boolean;
-  setAuthModalOpen: (open: boolean) => void;
+  theme: 'light' | 'dark' | 'system';
+  sidebarOpen: boolean;
   
-  // Mock data
-  problems: Problem[];
-  setProblems: (problems: Problem[]) => void;
+  // AI Helper state
+  aiHelper: AIHelperState;
+  
+  // Editor state (per problem)
+  editorStates: Record<string, EditorState>;
+  
+  // Actions
+  setUser: (user: User | null) => void;
+  setTheme: (theme: 'light' | 'dark' | 'system') => void;
+  setSidebarOpen: (open: boolean) => void;
+  toggleSidebar: () => void;
+  
+  // AI Helper actions
+  setAIHelperOpen: (open: boolean) => void;
+  setAIAssistanceLevel: (level: 'hint' | 'guided' | 'walkthrough') => void;
+  addAIInteraction: (interaction: any) => void;
+  setAILoading: (loading: boolean) => void;
+  
+  // Editor actions
+  setEditorState: (problemId: string, state: Partial<EditorState>) => void;
+  getEditorState: (problemId: string) => EditorState | undefined;
+  clearEditorState: (problemId: string) => void;
+  
+  // Preferences
+  updatePreferences: (preferences: Partial<UserPreferences>) => void;
 }
 
-const initialProgress: Progress = {
-  solved: [],
-  hintUsage: {
-    easy: 0,
-    medium: 0,
-    hard: 0,
-  },
-};
-
-const initialAISession: AISession = {
-  chatHistory: [],
-  aiLevel: 'easy',
-  quotaRemaining: {
-    easy: 10,
-    medium: 5,
-    hard: 3,
-  },
-};
-
-const initialEditorState: EditorState = {
-  content: '',
+const defaultEditorState: EditorState = {
+  code: '',
   language: 'javascript',
-  problemSlug: undefined,
+  isDirty: false,
 };
 
-const mockProblems: Problem[] = [
-  {
-    id: '1',
-    slug: 'two-sum',
-    title: 'Two Sum Challenge',
-    description: 'Given an array of integers and a target sum, find two numbers that add up to the target.',
-    difficulty: 'easy',
-    status: 'not-started',
-    hints: {
-      easy: ['Think about using a hash map to store numbers and their indices', 'You can iterate through the array once'],
-      medium: ['Use a Map to store value-index pairs', 'For each number, check if target - current exists in map'],
-      hard: ['Consider edge cases like duplicate numbers', 'What if no solution exists?']
-    },
-    starterCode: `function twoSum(nums, target) {
-  // Your code here
-}`,
-    testCases: [
-      { input: '[2,7,11,15], 9', expectedOutput: '[0,1]' },
-      { input: '[3,2,4], 6', expectedOutput: '[1,2]' },
-      { input: '[3,3], 6', expectedOutput: '[0,1]' }
-    ]
-  },
-  {
-    id: '2',
-    slug: 'valid-parentheses',
-    title: 'Valid Parentheses',
-    description: 'Given a string containing just the characters \'(\', \')\', \'{\', \'}\', \'[\' and \']\', determine if the input string is valid.',
-    difficulty: 'medium',
-    status: 'not-started',
-    hints: {
-      easy: ['Use a stack data structure', 'Push opening brackets, pop when you see closing brackets'],
-      medium: ['Check if stack is empty when you encounter closing bracket', 'Make sure the closing bracket matches the most recent opening bracket'],
-      hard: ['Handle edge cases like empty string', 'Consider time and space complexity']
-    },
-    starterCode: `function isValid(s) {
-  // Your code here
-}`,
-    testCases: [
-      { input: '"()"', expectedOutput: 'true' },
-      { input: '"()[]{}"', expectedOutput: 'true' },
-      { input: '"(]"', expectedOutput: 'false' }
-    ]
-  },
-  {
-    id: '3',
-    slug: 'longest-substring',
-    title: 'Longest Substring Without Repeating Characters',
-    description: 'Find the length of the longest substring without repeating characters.',
-    difficulty: 'hard',
-    status: 'not-started',
-    hints: {
-      easy: ['Use a sliding window approach', 'Keep track of characters in current window'],
-      medium: ['Use two pointers and a Set or Map', 'Expand right pointer, contract left when duplicate found'],
-      hard: ['Optimize to O(n) time complexity', 'Consider using character frequency array for better performance']
-    },
-    starterCode: `function lengthOfLongestSubstring(s) {
-  // Your code here
-}`,
-    testCases: [
-      { input: '"abcabcbb"', expectedOutput: '3' },
-      { input: '"bbbbb"', expectedOutput: '1' },
-      { input: '"pwwkew"', expectedOutput: '3' }
-    ]
-  }
-];
+const defaultAIHelperState: AIHelperState = {
+  isOpen: false,
+  currentLevel: 'hint',
+  conversation: [],
+  isLoading: false,
+};
 
 export const useAppStore = create<AppState>()(
   persist(
     (set, get) => ({
-      // User state
+      // Initial state
       user: null,
-      setUser: (user) => set({ user }),
+      isAuthenticated: false,
+      theme: 'system',
+      sidebarOpen: false,
+      aiHelper: defaultAIHelperState,
+      editorStates: {},
       
-      // Progress state
-      progress: initialProgress,
-      updateProgress: (updates) => 
-        set((state) => ({
-          progress: { ...state.progress, ...updates }
-        })),
-      markProblemSolved: (problemId) =>
-        set((state) => ({
-          progress: {
-            ...state.progress,
-            solved: [...state.progress.solved, problemId]
+      // User actions
+      setUser: (user) => set({ 
+        user, 
+        isAuthenticated: !!user 
+      }),
+      
+      // Theme actions
+      setTheme: (theme) => set({ theme }),
+      
+      // Sidebar actions
+      setSidebarOpen: (open) => set({ sidebarOpen: open }),
+      toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
+      
+      // AI Helper actions
+      setAIHelperOpen: (open) => set((state) => ({
+        aiHelper: { ...state.aiHelper, isOpen: open }
+      })),
+      
+      setAIAssistanceLevel: (level) => set((state) => ({
+        aiHelper: { ...state.aiHelper, currentLevel: level }
+      })),
+      
+      addAIInteraction: (interaction) => set((state) => ({
+        aiHelper: {
+          ...state.aiHelper,
+          conversation: [...state.aiHelper.conversation, interaction]
+        }
+      })),
+      
+      setAILoading: (loading) => set((state) => ({
+        aiHelper: { ...state.aiHelper, isLoading: loading }
+      })),
+      
+      // Editor actions
+      setEditorState: (problemId, state) => set((current) => ({
+        editorStates: {
+          ...current.editorStates,
+          [problemId]: {
+            ...defaultEditorState,
+            ...current.editorStates[problemId],
+            ...state
           }
-        })),
-      useHint: (difficulty) =>
-        set((state) => ({
-          progress: {
-            ...state.progress,
-            hintUsage: {
-              ...state.progress.hintUsage,
-              [difficulty]: state.progress.hintUsage[difficulty] + 1
-            }
-          },
-          aiSession: {
-            ...state.aiSession,
-            quotaRemaining: {
-              ...state.aiSession.quotaRemaining,
-              [difficulty]: Math.max(0, state.aiSession.quotaRemaining[difficulty] - 1)
-            }
-          }
-        })),
+        }
+      })),
       
-      // AI session state
-      aiSession: initialAISession,
-      addChatMessage: (message) =>
-        set((state) => ({
-          aiSession: {
-            ...state.aiSession,
-            chatHistory: [
-              ...state.aiSession.chatHistory,
-              {
-                ...message,
-                id: Math.random().toString(36).substr(2, 9),
-                timestamp: new Date()
-              }
-            ]
-          }
-        })),
-      setAILevel: (level) =>
-        set((state) => ({
-          aiSession: { ...state.aiSession, aiLevel: level }
-        })),
+      getEditorState: (problemId) => {
+        const state = get().editorStates[problemId];
+        return state || defaultEditorState;
+      },
       
-      // Editor state
-      editorState: initialEditorState,
-      updateEditorState: (updates) =>
-        set((state) => ({
-          editorState: { ...state.editorState, ...updates }
-        })),
+      clearEditorState: (problemId) => set((state) => {
+        const newStates = { ...state.editorStates };
+        delete newStates[problemId];
+        return { editorStates: newStates };
+      }),
       
-      // UI state
-      isAuthModalOpen: false,
-      setAuthModalOpen: (open) => set({ isAuthModalOpen: open }),
-      
-      // Mock data
-      problems: mockProblems,
-      setProblems: (problems) => set({ problems }),
+      // Preferences
+      updatePreferences: (preferences) => set((state) => ({
+        user: state.user ? {
+          ...state.user,
+          preferences: { ...state.user.preferences, ...preferences }
+        } : null
+      })),
     }),
     {
-      name: 'oa-platform-storage',
+      name: 'oa-app-store',
       partialize: (state) => ({
         user: state.user,
-        progress: state.progress,
-        aiSession: state.aiSession,
-        editorState: state.editorState,
+        isAuthenticated: state.isAuthenticated,
+        theme: state.theme,
+        editorStates: state.editorStates,
       }),
     }
   )
 );
+
+// Selectors for better performance
+export const useUser = () => useAppStore((state) => state.user);
+export const useIsAuthenticated = () => useAppStore((state) => state.isAuthenticated);
+export const useTheme = () => useAppStore((state) => state.theme);
+export const useAIHelper = () => useAppStore((state) => state.aiHelper);
+export const useEditorState = (problemId: string) => 
+  useAppStore((state) => state.getEditorState(problemId));

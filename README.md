@@ -1,62 +1,77 @@
-# CodeMaster AI - AI-Assisted OA Platform
+# OA Platform - Online Assessment Platform
 
-A comprehensive platform for solving coding challenges with intelligent AI guidance. Built with Next.js, TypeScript, and modern web technologies.
+A modern, AI-powered coding practice platform built with Next.js, TypeScript, and React. This platform provides an interactive environment for practicing algorithmic problems with intelligent AI assistance that guides without giving away complete solutions.
 
 ## 🚀 Features
 
-### Landing Page (`/`)
-- **Hero Section**: Compelling introduction with animated code elements
-- **Feature Showcase**: Highlights adaptive AI guidance, code editor, and structured learning
-- **Authentication Modal**: Unified sign-in/sign-up with guest mode for development
-- **Responsive Design**: Beautiful UI that works on all devices
+### Core Functionality
+- **Problem Browser**: Browse and filter coding problems by difficulty, tags, and search
+- **In-Browser Editor**: Monaco editor with syntax highlighting, auto-completion, and multi-language support
+- **Safe Test Runner**: Sandboxed code execution with real-time feedback
+- **AI Helper**: Intelligent assistance with three levels of guidance (Hint, Guided, Walkthrough)
+- **Progress Tracking**: Dashboard with statistics, achievements, and submission history
+- **Responsive Design**: Mobile-first design that works on all devices
 
-### Dashboard (`/dashboard`)
-- **User Profile**: Progress tracking and statistics
-- **Problem List**: Filterable and searchable problem collection
-- **Progress Visualization**: Difficulty-based progress bars and hint usage stats
-- **Status Indicators**: Visual problem status (solved, in-progress, AI-helped, not-started)
+### AI Helper Features
+- **Three Assistance Levels**:
+  - **Hint**: Conceptual hints, algorithm outlines, key edge cases
+  - **Guided**: Detailed walkthrough, structured pseudocode, short snippets
+  - **Walkthrough**: Detailed plan, decomposition, targeted snippets
+- **Content Filtering**: Prevents full solution disclosure with client and server-side enforcement
+- **Compliance Monitoring**: Real-time detection of policy violations
+- **Escalation System**: Credit-based system for higher assistance levels
 
-### Problem Workspace (`/problems/[slug]`)
-- **Monaco Editor**: Professional code editor with syntax highlighting
-- **AI Chat Panel**: Contextual assistance with difficulty-based hints
-- **Test Execution**: Run code and see real-time test results
-- **Problem Description**: Detailed problem statements and test cases
-- **Auto-save**: Draft code is automatically saved
+### Technical Features
+- **TypeScript**: Strict type checking for better code quality
+- **Next.js App Router**: Modern routing with server components
+- **React Query**: Efficient data fetching and caching
+- **Zustand**: Lightweight state management
+- **Tailwind CSS**: Utility-first styling with custom design system
+- **Monaco Editor**: VS Code-like editing experience
+- **Radix UI**: Accessible component primitives
 
-## 🛠 Technology Stack
+## 🛠️ Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS with custom design tokens
-- **State Management**: Zustand with persistence
-- **Editor**: Monaco Editor (VS Code editor)
-- **Animations**: Framer Motion
+- **Frontend**: Next.js 14, React 18, TypeScript
+- **Styling**: Tailwind CSS, CSS Modules
+- **State Management**: Zustand
+- **Data Fetching**: TanStack Query (React Query)
+- **Editor**: Monaco Editor
+- **UI Components**: Radix UI, Lucide React
 - **Icons**: Lucide React
-- **Fonts**: Inter (UI), JetBrains Mono (Code)
+- **Font**: Inter
 
-## 🎨 Design System
+## 📁 Project Structure
 
-### Color Palette
-- **Navy**: Deep navy backgrounds (#0f172a, #1e293b, #334155)
-- **Electric Blue**: Primary accent (#3b82f6)
-- **Difficulty Colors**: 
-  - Easy: Emerald (#10b981)
-  - Medium: Amber (#f59e0b)
-  - Hard: Rose (#f43f5e)
-
-### Typography
-- **UI Font**: Inter (clean, modern)
-- **Code Font**: JetBrains Mono (developer-friendly)
-
-### Components
-- **Buttons**: Rounded pills with gradient hover effects
-- **Cards**: Subtle shadows with hover animations
-- **Status Indicators**: Color-coded dots and badges
-- **Animations**: Smooth transitions and micro-interactions
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── api/               # API routes
+│   │   ├── problems/      # Problem-related endpoints
+│   │   ├── ai/           # AI helper endpoints
+│   │   └── run/          # Test runner endpoint
+│   ├── problems/          # Problem pages
+│   ├── dashboard/         # User dashboard
+│   ├── settings/          # User settings
+│   └── layout.tsx         # Root layout
+├── components/            # React components
+│   ├── ui/               # Reusable UI components
+│   ├── layout/           # Layout components
+│   ├── editor/           # Editor-related components
+│   └── ai/               # AI helper components
+├── lib/                  # Utility libraries
+│   ├── api.ts           # API client
+│   ├── store.ts         # Zustand store
+│   ├── utils.ts         # Utility functions
+│   └── query-client.ts  # React Query configuration
+├── types/               # TypeScript type definitions
+└── styles/             # Global styles
+```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+ 
 - npm or yarn
 
@@ -65,7 +80,7 @@ A comprehensive platform for solving coding challenges with intelligent AI guida
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd oa
+   cd oa-platform
    ```
 
 2. **Install dependencies**
@@ -81,106 +96,136 @@ A comprehensive platform for solving coding challenges with intelligent AI guida
 4. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-## 📁 Project Structure
-
-```
-src/
-├── app/                    # Next.js App Router pages
-│   ├── dashboard/         # Dashboard page
-│   ├── problems/[slug]/   # Dynamic problem workspace
-│   ├── globals.css        # Global styles and design tokens
-│   ├── layout.tsx         # Root layout with fonts
-│   └── page.tsx           # Landing page
-├── components/            # Reusable components
-│   └── AuthModal.tsx     # Authentication modal
-├── lib/                  # Utilities and configurations
-│   └── store.ts          # Zustand store with persistence
-```
-
-## 🔧 Key Features Implementation
-
-### State Management
-The app uses Zustand for global state management with localStorage persistence:
-
-```typescript
-interface AppState {
-  user: User | null;
-  progress: Progress;
-  aiSession: AISession;
-  editorState: EditorState;
-  // ... other state
-}
-```
-
-### Authentication Flow
-- **Development Mode**: Mock authentication with guest mode
-- **Modal-based**: Unified sign-in/sign-up experience
-- **State Persistence**: User session persists across browser refreshes
-
-### AI Assistant System
-- **Difficulty Levels**: Easy, Medium, Hard with different hint strategies
-- **Quota System**: Limited hints per difficulty level
-- **Chat Interface**: Real-time conversation with AI
-- **Context Awareness**: AI responses based on current problem and difficulty
-
-### Code Editor Integration
-- **Monaco Editor**: Full-featured code editor
-- **Language Support**: JavaScript (extensible to other languages)
-- **Auto-save**: Draft code automatically saved to state
-- **Syntax Highlighting**: Professional code highlighting
-
-## 🎯 User Journey
-
-1. **Landing**: User visits homepage, learns about the platform
-2. **Authentication**: User signs in or continues as guest
-3. **Dashboard**: User sees problem list, progress, and statistics
-4. **Problem Selection**: User clicks on a problem to start solving
-5. **Workspace**: User codes with AI assistance and runs tests
-6. **Progress Tracking**: User's progress is saved and tracked
-
-## 🔮 Future Enhancements
-
-- **Real Authentication**: Integration with auth providers (Auth0, Clerk)
-- **More Languages**: Support for Python, Java, C++, etc.
-- **Advanced AI**: Integration with OpenAI or similar AI services
-- **User Management**: User profiles, achievements, leaderboards
-- **Problem Management**: Admin panel for adding/editing problems
-- **Collaboration**: Real-time collaboration features
-- **Mobile App**: React Native mobile application
-
-## 🧪 Development
-
 ### Available Scripts
 
-```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run type-check` - Run TypeScript type checking
+
+## 🎯 Usage
+
+### For Students/Learners
+
+1. **Browse Problems**: Visit `/problems` to see available coding challenges
+2. **Filter & Search**: Use filters to find problems by difficulty, tags, or search terms
+3. **Solve Problems**: Click on a problem to open the editor and start coding
+4. **Use AI Helper**: Click the AI Helper button for intelligent assistance
+5. **Track Progress**: Visit `/dashboard` to see your progress and achievements
+
+### For Developers
+
+1. **Problem Management**: Add new problems by extending the mock data in API routes
+2. **AI Integration**: Implement real AI service integration in `/api/ai/ask`
+3. **Test Runner**: Enhance the sandboxed execution in `/api/run`
+4. **Customization**: Modify components and styles to match your brand
+
+## 🔧 Configuration
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```env
+# API Configuration
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+
+# AI Service (when implementing real AI)
+AI_SERVICE_URL=your-ai-service-url
+AI_SERVICE_KEY=your-ai-service-key
+
+# Database (when implementing real database)
+DATABASE_URL=your-database-url
 ```
 
-### Code Style
-- **TypeScript**: Strict type checking enabled
-- **ESLint**: Configured with Next.js recommended rules
-- **Prettier**: Code formatting (if configured)
-- **Tailwind**: Utility-first CSS approach
+### Customization
 
-## 📝 License
+- **Themes**: Modify CSS variables in `src/app/globals.css`
+- **Components**: Customize UI components in `src/components/ui/`
+- **API**: Extend API routes in `src/app/api/`
+- **Types**: Add new types in `src/types/index.ts`
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## 🧪 Testing
+
+The platform includes comprehensive testing setup:
+
+- **Unit Tests**: Component testing with React Testing Library
+- **Integration Tests**: API endpoint testing
+- **E2E Tests**: Full user flow testing with Playwright
+
+Run tests:
+```bash
+npm run test          # Unit tests
+npm run test:e2e      # E2E tests
+npm run test:coverage # Coverage report
+```
+
+## 🔒 Security Features
+
+- **Code Sanitization**: Input sanitization for AI interactions
+- **Sandboxed Execution**: Safe code execution environment
+- **Content Filtering**: Prevents full solution disclosure
+- **Rate Limiting**: API rate limiting (to be implemented)
+- **Input Validation**: Comprehensive input validation
+
+## 📱 Responsive Design
+
+The platform is fully responsive with:
+- Mobile-first approach
+- Breakpoints: sm (640px), md (768px), lg (1024px), xl (1280px)
+- Touch-friendly interface
+- Collapsible editor on mobile
+- Full-screen AI helper on mobile
+
+## ♿ Accessibility
+
+- **Keyboard Navigation**: Full keyboard support
+- **ARIA Labels**: Proper ARIA attributes
+- **Screen Reader Support**: Compatible with screen readers
+- **Color Contrast**: WCAG AA compliant
+- **Focus Management**: Proper focus handling
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Deploy automatically
+
+### Other Platforms
+
+The app can be deployed to any platform that supports Next.js:
+- Netlify
+- AWS Amplify
+- Railway
+- DigitalOcean App Platform
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Next.js](https://nextjs.org/) - React framework
+- [Monaco Editor](https://microsoft.github.io/monaco-editor/) - Code editor
+- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
+- [Radix UI](https://www.radix-ui.com/) - UI primitives
+- [Lucide](https://lucide.dev/) - Icons
+
 ## 📞 Support
 
-For support, email support@codemasterai.com or create an issue in the repository.
+For support, email support@oa-platform.com or create an issue in the repository.
 
 ---
 
-**Built with ❤️ for developers who want to learn coding with AI assistance.**
+Built with ❤️ for the coding community

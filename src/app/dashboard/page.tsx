@@ -1,352 +1,318 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
-import { 
-  Code, 
-  User, 
-  LogOut, 
-  Filter, 
-  Search, 
-  Trophy, 
-  Target, 
-  Brain,
-  Clock,
-  CheckCircle,
-  Circle,
-  AlertCircle
-} from 'lucide-react';
-import { useAppStore } from '@/lib/store';
-import type { Problem } from '@/lib/store';
+import { useState } from 'react';
+import { BarChart3, Clock, CheckCircle, XCircle, Trophy, Target, TrendingUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
-export default function Dashboard() {
-  const router = useRouter();
-  const { user, progress, problems, setUser } = useAppStore();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [difficultyFilter, setDifficultyFilter] = useState<'all' | 'easy' | 'medium' | 'hard'>('all');
-  const [statusFilter, setStatusFilter] = useState<'all' | 'solved' | 'in-progress' | 'ai-helped' | 'not-started'>('all');
+export default function DashboardPage() {
+  const [timeRange, setTimeRange] = useState('7d');
 
-  useEffect(() => {
-    if (!user) {
-      router.push('/');
-    }
-  }, [user, router]);
-
-  const handleLogout = () => {
-    setUser(null);
-    router.push('/');
+  // Mock data - in a real app, this would come from the API
+  const stats = {
+    totalProblems: 156,
+    solvedProblems: 23,
+    submissions: 45,
+    accuracy: 78.5,
+    streak: 7,
+    rank: 1247,
+    points: 1250,
   };
 
-  const getStatusIcon = (status: Problem['status']) => {
+  const recentSubmissions = [
+    {
+      id: '1',
+      problem: 'Two Sum',
+      difficulty: 'easy',
+      status: 'accepted',
+      language: 'JavaScript',
+      time: '2 hours ago',
+      runtime: '45ms',
+    },
+    {
+      id: '2',
+      problem: 'Add Two Numbers',
+      difficulty: 'medium',
+      status: 'wrong-answer',
+      language: 'Python',
+      time: '1 day ago',
+      runtime: '120ms',
+    },
+    {
+      id: '3',
+      problem: 'Longest Substring',
+      difficulty: 'medium',
+      status: 'accepted',
+      language: 'Java',
+      time: '2 days ago',
+      runtime: '89ms',
+    },
+  ];
+
+  const achievements = [
+    {
+      id: '1',
+      title: 'First Problem Solved',
+      description: 'Solved your first coding problem',
+      icon: Target,
+      earned: true,
+      date: '2024-01-15',
+    },
+    {
+      id: '2',
+      title: 'Streak Master',
+      description: 'Solved problems for 7 consecutive days',
+      icon: Trophy,
+      earned: true,
+      date: '2024-01-20',
+    },
+    {
+      id: '3',
+      title: 'Speed Demon',
+      description: 'Solved 5 problems in under 30 minutes each',
+      icon: TrendingUp,
+      earned: false,
+      date: null,
+    },
+  ];
+
+  const getStatusColor = (status: string) => {
     switch (status) {
-      case 'solved':
-        return <CheckCircle className="w-4 h-4 text-emerald-400" />;
-      case 'in-progress':
-        return <Clock className="w-4 h-4 text-amber-400" />;
-      case 'ai-helped':
-        return <Brain className="w-4 h-4 text-electric-400" />;
+      case 'accepted':
+        return 'text-green-600 bg-green-50';
+      case 'wrong-answer':
+        return 'text-red-600 bg-red-50';
+      case 'time-limit-exceeded':
+        return 'text-yellow-600 bg-yellow-50';
       default:
-        return <Circle className="w-4 h-4 text-navy-400" />;
+        return 'text-gray-600 bg-gray-50';
     }
   };
 
-  const getStatusColor = (status: Problem['status']) => {
-    switch (status) {
-      case 'solved':
-        return 'status-solved';
-      case 'in-progress':
-        return 'status-in-progress';
-      case 'ai-helped':
-        return 'status-ai-helped';
-      default:
-        return 'status-not-started';
-    }
-  };
-
-  const getDifficultyColor = (difficulty: Problem['difficulty']) => {
+  const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case 'easy':
-        return 'difficulty-easy';
+        return 'text-green-600 bg-green-50';
       case 'medium':
-        return 'difficulty-medium';
+        return 'text-yellow-600 bg-yellow-50';
       case 'hard':
-        return 'difficulty-hard';
+        return 'text-red-600 bg-red-50';
+      default:
+        return 'text-gray-600 bg-gray-50';
     }
   };
 
-  const filteredProblems = problems.filter(problem => {
-    const matchesSearch = problem.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         problem.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesDifficulty = difficultyFilter === 'all' || problem.difficulty === difficultyFilter;
-    const matchesStatus = statusFilter === 'all' || problem.status === statusFilter;
-    
-    return matchesSearch && matchesDifficulty && matchesStatus;
-  });
-
-  const solvedCount = progress.solved.length;
-  const totalProblems = problems.length;
-  const progressPercentage = totalProblems > 0 ? (solvedCount / totalProblems) * 100 : 0;
-
-  const difficultyStats = {
-    easy: problems.filter(p => p.difficulty === 'easy').length,
-    medium: problems.filter(p => p.difficulty === 'medium').length,
-    hard: problems.filter(p => p.difficulty === 'hard').length,
-  };
-
-  const solvedByDifficulty = {
-    easy: problems.filter(p => p.difficulty === 'easy' && progress.solved.includes(p.id)).length,
-    medium: problems.filter(p => p.difficulty === 'medium' && progress.solved.includes(p.id)).length,
-    hard: problems.filter(p => p.difficulty === 'hard' && progress.solved.includes(p.id)).length,
-  };
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-navy-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-electric-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-navy-300">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-navy-900">
-      {/* Navigation */}
-      <nav className="bg-navy-800 border-b border-navy-700 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-electric-500 to-electric-600 rounded-lg flex items-center justify-center">
-              <Code className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-white">CodeMaster AI</span>
-          </div>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
+          <p className="text-gray-600">Track your progress and coding journey</p>
+        </div>
 
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-navy-300">
-              <User className="w-5 h-5" />
-              <span>{user.name}</span>
-              {user.guest && (
-                <span className="text-xs bg-navy-700 px-2 py-1 rounded">Guest</span>
-              )}
-            </div>
-            <button
-              onClick={handleLogout}
-              className="p-2 text-navy-400 hover:text-white hover:bg-navy-700 rounded-lg transition-colors"
-            >
-              <LogOut className="w-5 h-5" />
-            </button>
+        {/* Time Range Selector */}
+        <div className="mb-8">
+          <div className="flex gap-2">
+            {['7d', '30d', '90d', '1y'].map((range) => (
+              <Button
+                key={range}
+                variant={timeRange === range ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setTimeRange(range)}
+              >
+                {range}
+              </Button>
+            ))}
           </div>
         </div>
-      </nav>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="grid lg:grid-cols-4 gap-8">
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="space-y-6"
-            >
-              {/* Profile Card */}
-              <div className="card">
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-electric-500 to-electric-600 rounded-full flex items-center justify-center">
-                    <User className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white">{user.name}</h3>
-                    <p className="text-sm text-navy-400">{user.email}</p>
-                  </div>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-navy-300">Problems Solved</span>
-                    <span className="text-sm font-semibold text-white">{solvedCount}/{totalProblems}</span>
-                  </div>
-                  <div className="w-full bg-navy-700 rounded-full h-2">
-                    <div 
-                      className="bg-gradient-to-r from-electric-500 to-electric-600 h-2 rounded-full transition-all duration-500"
-                      style={{ width: `${progressPercentage}%` }}
-                    />
-                  </div>
-                </div>
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center">
+              <div className="p-2 bg-blue-100 rounded-lg">
+                <BarChart3 className="w-6 h-6 text-blue-600" />
               </div>
-
-              {/* Hint Usage Stats */}
-              <div className="card">
-                <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                  <Brain className="w-5 h-5 mr-2" />
-                  Hint Usage
-                </h4>
-                <div className="space-y-3">
-                  {Object.entries(progress.hintUsage).map(([level, count]) => (
-                    <div key={level} className="flex items-center justify-between">
-                      <span className={`text-sm capitalize ${getDifficultyColor(level as Problem['difficulty'])} px-2 py-1 rounded`}>
-                        {level}
-                      </span>
-                      <span className="text-sm text-navy-300">{count}</span>
-                    </div>
-                  ))}
-                </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Problems Solved</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {stats.solvedProblems}/{stats.totalProblems}
+                </p>
               </div>
-
-              {/* Difficulty Progress */}
-              <div className="card">
-                <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                  <Target className="w-5 h-5 mr-2" />
-                  Difficulty Progress
-                </h4>
-                <div className="space-y-3">
-                  {Object.entries(difficultyStats).map(([level, total]) => {
-                    const solved = solvedByDifficulty[level as keyof typeof solvedByDifficulty];
-                    const percentage = total > 0 ? (solved / total) * 100 : 0;
-                    return (
-                      <div key={level}>
-                        <div className="flex items-center justify-between mb-1">
-                          <span className={`text-sm capitalize ${getDifficultyColor(level as Problem['difficulty'])} px-2 py-1 rounded`}>
-                            {level}
-                          </span>
-                          <span className="text-sm text-navy-300">{solved}/{total}</span>
-                        </div>
-                        <div className="w-full bg-navy-700 rounded-full h-2">
-                          <div 
-                            className={`h-2 rounded-full transition-all duration-500 ${
-                              level === 'easy' ? 'bg-emerald-500' :
-                              level === 'medium' ? 'bg-amber-500' : 'bg-rose-500'
-                            }`}
-                            style={{ width: `${percentage}%` }}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </motion.div>
+            </div>
           </div>
 
-          {/* Main Content */}
-          <div className="lg:col-span-3">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-6"
-            >
-              {/* Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div>
-                  <h1 className="text-3xl font-bold text-white">Problem Dashboard</h1>
-                  <p className="text-navy-300">Choose a challenge and start coding with AI guidance</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Trophy className="w-5 h-5 text-amber-400" />
-                  <span className="text-sm text-navy-300">
-                    {solvedCount} problem{solvedCount !== 1 ? 's' : ''} solved
-                  </span>
-                </div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center">
+              <div className="p-2 bg-green-100 rounded-lg">
+                <CheckCircle className="w-6 h-6 text-green-600" />
               </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Accuracy</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.accuracy}%</p>
+              </div>
+            </div>
+          </div>
 
-              {/* Filters */}
-              <div className="card">
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <div className="flex-1">
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-navy-400" size={18} />
-                      <input
-                        type="text"
-                        placeholder="Search problems..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 bg-navy-700 border border-navy-600 rounded-lg text-white placeholder-navy-400 focus:outline-none focus:ring-2 focus:ring-electric-500 focus:border-transparent"
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center">
+              <div className="p-2 bg-yellow-100 rounded-lg">
+                <Clock className="w-6 h-6 text-yellow-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Current Streak</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.streak} days</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center">
+              <div className="p-2 bg-purple-100 rounded-lg">
+                <Trophy className="w-6 h-6 text-purple-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-600">Points</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.points}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Recent Submissions */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-lg font-semibold text-gray-900">Recent Submissions</h2>
+            </div>
+            <div className="p-6">
+              <div className="space-y-4">
+                {recentSubmissions.map((submission) => (
+                  <div key={submission.id} className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Link
+                          href={`/problems/${submission.problem.toLowerCase().replace(/\s+/g, '-')}`}
+                          className="font-medium text-gray-900 hover:text-blue-600"
+                        >
+                          {submission.problem}
+                        </Link>
+                        <span
+                          className={`px-2 py-1 text-xs rounded-full ${getDifficultyColor(submission.difficulty)}`}
+                        >
+                          {submission.difficulty}
+                        </span>
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {submission.language} • {submission.time} • {submission.runtime}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {submission.status === 'accepted' ? (
+                        <CheckCircle className="w-5 h-5 text-green-500" />
+                      ) : (
+                        <XCircle className="w-5 h-5 text-red-500" />
+                      )}
+                      <span
+                        className={`px-2 py-1 text-xs rounded-full ${getStatusColor(submission.status)}`}
+                      >
+                        {submission.status.replace('-', ' ')}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4">
+                <Link href="/submissions">
+                  <Button variant="outline" className="w-full">
+                    View All Submissions
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Achievements */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-lg font-semibold text-gray-900">Achievements</h2>
+            </div>
+            <div className="p-6">
+              <div className="space-y-4">
+                {achievements.map((achievement) => (
+                  <div
+                    key={achievement.id}
+                    className={`flex items-center p-3 rounded-lg ${
+                      achievement.earned ? 'bg-green-50' : 'bg-gray-50'
+                    }`}
+                  >
+                    <div
+                      className={`p-2 rounded-lg ${
+                        achievement.earned ? 'bg-green-100' : 'bg-gray-100'
+                      }`}
+                    >
+                      <achievement.icon
+                        className={`w-5 h-5 ${
+                          achievement.earned ? 'text-green-600' : 'text-gray-400'
+                        }`}
                       />
                     </div>
-                  </div>
-                  
-                  <div className="flex gap-2">
-                    <select
-                      value={difficultyFilter}
-                      onChange={(e) => setDifficultyFilter(e.target.value as any)}
-                      className="px-3 py-2 bg-navy-700 border border-navy-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-electric-500"
-                    >
-                      <option value="all">All Difficulties</option>
-                      <option value="easy">Easy</option>
-                      <option value="medium">Medium</option>
-                      <option value="hard">Hard</option>
-                    </select>
-                    
-                    <select
-                      value={statusFilter}
-                      onChange={(e) => setStatusFilter(e.target.value as any)}
-                      className="px-3 py-2 bg-navy-700 border border-navy-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-electric-500"
-                    >
-                      <option value="all">All Status</option>
-                      <option value="not-started">Not Started</option>
-                      <option value="in-progress">In Progress</option>
-                      <option value="ai-helped">AI Helped</option>
-                      <option value="solved">Solved</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              {/* Problem List */}
-              <div className="grid gap-4">
-                {filteredProblems.length === 0 ? (
-                  <div className="card text-center py-12">
-                    <AlertCircle className="w-12 h-12 text-navy-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-white mb-2">No problems found</h3>
-                    <p className="text-navy-300">Try adjusting your search or filter criteria</p>
-                  </div>
-                ) : (
-                  filteredProblems.map((problem, index) => (
-                    <motion.div
-                      key={problem.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      onClick={() => router.push(`/problems/${problem.slug}`)}
-                      className="card card-hover cursor-pointer group"
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-3 mb-2">
-                            {getStatusIcon(problem.status)}
-                            <h3 className="text-lg font-semibold text-white group-hover:text-electric-400 transition-colors">
-                              {problem.title}
-                            </h3>
-                            <span className={`px-2 py-1 rounded text-xs font-medium ${getDifficultyColor(problem.difficulty)}`}>
-                              {problem.difficulty}
-                            </span>
-                          </div>
-                          <p className="text-navy-300 mb-3">{problem.description}</p>
-                          <div className="flex items-center space-x-4 text-sm text-navy-400">
-                            <span className="flex items-center">
-                              <Clock className="w-4 h-4 mr-1" />
-                              {problem.difficulty === 'easy' ? '15-30 min' : 
-                               problem.difficulty === 'medium' ? '30-60 min' : '60+ min'}
-                            </span>
-                            <span className="flex items-center">
-                              <Brain className="w-4 h-4 mr-1" />
-                              {problem.hints[problem.difficulty].length} hints available
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className={`w-3 h-3 rounded-full ${getStatusColor(problem.status)}`} />
-                          <span className="text-sm text-navy-400 capitalize">
-                            {problem.status.replace('-', ' ')}
-                          </span>
-                        </div>
+                    <div className="ml-4 flex-1">
+                      <h3
+                        className={`font-medium ${
+                          achievement.earned ? 'text-green-900' : 'text-gray-500'
+                        }`}
+                      >
+                        {achievement.title}
+                      </h3>
+                      <p
+                        className={`text-sm ${
+                          achievement.earned ? 'text-green-700' : 'text-gray-400'
+                        }`}
+                      >
+                        {achievement.description}
+                      </p>
+                      {achievement.earned && achievement.date && (
+                        <p className="text-xs text-green-600 mt-1">
+                          Earned on {new Date(achievement.date).toLocaleDateString()}
+                        </p>
+                      )}
+                    </div>
+                    {achievement.earned && (
+                      <div className="text-green-500">
+                        <CheckCircle className="w-5 h-5" />
                       </div>
-                    </motion.div>
-                  ))
-                )}
+                    )}
+                  </div>
+                ))}
               </div>
-            </motion.div>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Link href="/problems">
+              <Button className="w-full justify-start">
+                <Target className="w-4 h-4 mr-2" />
+                Browse Problems
+              </Button>
+            </Link>
+            <Link href="/problems?difficulty=easy">
+              <Button variant="outline" className="w-full justify-start">
+                <CheckCircle className="w-4 h-4 mr-2" />
+                Practice Easy Problems
+              </Button>
+            </Link>
+            <Link href="/settings">
+              <Button variant="outline" className="w-full justify-start">
+                <BarChart3 className="w-4 h-4 mr-2" />
+                View Settings
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
