@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Code, Brain, Target, ArrowRight, Sparkles, Zap, Shield } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
@@ -8,11 +9,23 @@ import AuthModal from '@/components/AuthModal';
 
 export default function Home() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const { setAuthModalOpen } = useAppStore();
+  const { setAuthModalOpen, setUser } = useAppStore();
+  const router = useRouter();
 
   useEffect(() => {
     setAuthModalOpen(isAuthModalOpen);
   }, [isAuthModalOpen, setAuthModalOpen]);
+
+  // Auto-login as guest and redirect to dashboard
+  useEffect(() => {
+    const guestUser = {
+      name: 'Guest User',
+      email: 'guest@example.com',
+      guest: true,
+    };
+    setUser(guestUser);
+    router.push('/dashboard');
+  }, [setUser, router]);
 
   const features = [
     {
