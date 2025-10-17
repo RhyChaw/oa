@@ -85,7 +85,8 @@ body {
 }
 
 .btn-secondary {
-  @apply text-navy-100 border;
+  @apply border;
+  color: #f1f5f9;
   background-color: #334155;
   border-color: #475569;
 }
@@ -96,11 +97,11 @@ body {
 }
 
 .btn-ghost {
-  @apply text-navy-300;
+  color: #cbd5e1;
 }
 
 .btn-ghost:hover {
-  @apply text-white;
+  color: #ffffff;
   background-color: #1e293b;
 }
 
@@ -127,19 +128,22 @@ body {
 
 /* Difficulty badges */
 .difficulty-easy {
-  @apply text-emerald-400 border;
+  @apply border;
+  color: #34d399;
   background-color: rgba(16, 185, 129, 0.2);
   border-color: rgba(16, 185, 129, 0.3);
 }
 
 .difficulty-medium {
-  @apply text-amber-400 border;
+  @apply border;
+  color: #fbbf24;
   background-color: rgba(245, 158, 11, 0.2);
   border-color: rgba(245, 158, 11, 0.3);
 }
 
 .difficulty-hard {
-  @apply text-rose-400 border;
+  @apply border;
+  color: #fb7185;
   background-color: rgba(244, 63, 94, 0.2);
   border-color: rgba(244, 63, 94, 0.3);
 }
@@ -187,12 +191,14 @@ body {
 }
 
 .chat-user {
-  @apply text-electric-100 ml-auto;
+  @apply ml-auto;
+  color: #dbeafe;
   background-color: rgba(59, 130, 246, 0.2);
 }
 
 .chat-ai {
-  @apply text-navy-100 mr-auto;
+  @apply mr-auto;
+  color: #f1f5f9;
   background-color: #334155;
 }
 
