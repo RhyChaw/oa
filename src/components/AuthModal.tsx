@@ -50,6 +50,11 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
     };
     setUser(guestUser);
     setAuthModalOpen(false);
+    
+    // Redirect to dashboard after setting user
+    setTimeout(() => {
+      window.location.href = '/dashboard';
+    }, 100);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

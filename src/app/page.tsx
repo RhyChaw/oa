@@ -9,6 +9,7 @@ import AuthModal from '@/components/AuthModal';
 
 export default function Home() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { setAuthModalOpen, setUser } = useAppStore();
   const router = useRouter();
 
@@ -18,14 +19,34 @@ export default function Home() {
 
   // Auto-login as guest and redirect to dashboard
   useEffect(() => {
-    const guestUser = {
-      name: 'Guest User',
-      email: 'guest@example.com',
-      guest: true,
+    const autoLogin = async () => {
+      const guestUser = {
+        name: 'Guest User',
+        email: 'guest@example.com',
+        guest: true,
+      };
+      setUser(guestUser);
+      
+      // Small delay to ensure state is set
+      await new Promise(resolve => setTimeout(resolve, 100));
+      router.push('/dashboard');
     };
-    setUser(guestUser);
-    router.push('/dashboard');
+    
+    autoLogin();
   }, [setUser, router]);
+
+  // Show loading state while redirecting
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-navy-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-electric-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <h2 className="text-2xl font-bold text-white mb-2">Welcome to CodeMaster AI</h2>
+          <p className="text-navy-300">Logging you in as guest...</p>
+        </div>
+      </div>
+    );
+  }
 
   const features = [
     {
