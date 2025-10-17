@@ -124,32 +124,27 @@ export function AIHelperPanel({ problemId, isOpen, onClose, className }: AIHelpe
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className={cn(
-      "fixed inset-y-0 right-0 w-96 bg-white border-l border-gray-200 shadow-lg z-40 flex flex-col",
-      className
-    )}>
+    <div className="flex flex-col h-full w-[25%] bg-white dark:bg-slate-800 border-l border-gray-200 dark:border-slate-700">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b bg-gray-50">
+      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-slate-700">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">AI Helper</h3>
-          <p className="text-sm text-gray-500">
+          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">AI Helper</h3>
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             {assistanceLevels.find(level => level.value === currentLevel)?.description}
           </p>
         </div>
         <button
           onClick={onClose}
-          className="p-1 hover:bg-gray-200 rounded"
+          className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700"
         >
           <X className="w-5 h-5" />
         </button>
       </div>
 
       {/* Assistance Level Selector */}
-      <div className="p-4 border-b bg-yellow-50">
-        <div className="text-sm font-medium text-gray-700 mb-2">Assistance Level</div>
+      <div className="p-4 border-b border-gray-200 dark:border-slate-700 bg-yellow-50 dark:bg-yellow-900/20">
+        <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Assistance Level</div>
         <div className="flex gap-2">
           {assistanceLevels.map((level) => (
             <button
@@ -159,22 +154,22 @@ export function AIHelperPanel({ problemId, isOpen, onClose, className }: AIHelpe
                 "px-3 py-1 text-xs rounded-full border transition-colors",
                 currentLevel === level.value
                   ? "bg-blue-500 text-white border-blue-500"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                  : "bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600"
               )}
             >
               {level.label}
             </button>
           ))}
         </div>
-        <div className="mt-2 text-xs text-red-600 font-medium">
+        <div className="mt-2 text-xs text-red-600 dark:text-red-400 font-medium">
           ⚠️ AI WILL NOT PROVIDE FULL CODE
         </div>
       </div>
 
       {/* Conversation */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-2 space-y-4">
         {conversation.length === 0 ? (
-          <div className="text-center text-gray-500 py-8">
+          <div className="text-center text-slate-500 dark:text-slate-400 py-8">
             <div className="text-sm">
               Ask a focused question about the problem.
             </div>
@@ -186,24 +181,24 @@ export function AIHelperPanel({ problemId, isOpen, onClose, className }: AIHelpe
           conversation.map((interaction) => (
             <div key={interaction.id} className="space-y-3">
               {/* User Question */}
-              <div className="bg-blue-50 p-3 rounded-lg">
-                <div className="text-sm font-medium text-blue-900 mb-1">You asked:</div>
-                <div className="text-sm text-blue-800">{interaction.question}</div>
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+                <div className="text-sm font-medium text-blue-900 dark:text-blue-300 mb-1">You asked:</div>
+                <div className="text-sm text-blue-800 dark:text-blue-200">{interaction.question}</div>
               </div>
 
               {/* AI Response */}
-              <div className="bg-gray-50 p-3 rounded-lg">
+              <div className="bg-gray-50 dark:bg-slate-700 p-3 rounded-lg">
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="text-sm font-medium text-gray-900">AI Response:</div>
+                  <div className="text-sm font-medium text-slate-900 dark:text-slate-100">AI Response:</div>
                   {getComplianceIcon(interaction.complianceBadge)}
-                  <span className="text-xs text-gray-600">
+                  <span className="text-xs text-slate-600 dark:text-slate-400">
                     {getComplianceText(interaction.complianceBadge)}
                   </span>
                 </div>
-                <div className="text-sm text-gray-800 whitespace-pre-wrap">
+                <div className="text-sm text-slate-800 dark:text-slate-200 whitespace-pre-wrap">
                   {interaction.aiResponse}
                 </div>
-                <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
+                <div className="flex items-center justify-between mt-2 text-xs text-slate-500 dark:text-slate-400">
                   <span>Confidence: {interaction.confidenceEstimate}%</span>
                   <span>{new Date(interaction.timestamp).toLocaleTimeString()}</span>
                 </div>
@@ -213,7 +208,7 @@ export function AIHelperPanel({ problemId, isOpen, onClose, className }: AIHelpe
         )}
         
         {isLoading && (
-          <div className="flex items-center gap-2 text-gray-500">
+          <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
             <Clock className="w-4 h-4 animate-spin" />
             <span className="text-sm">AI is thinking...</span>
           </div>
@@ -223,14 +218,14 @@ export function AIHelperPanel({ problemId, isOpen, onClose, className }: AIHelpe
       </div>
 
       {/* Input */}
-      <div className="p-4 border-t bg-gray-50">
+      <div className="p-2 border-t border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-700">
         <div className="flex gap-2">
           <textarea
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Ask a focused question about the problem..."
-            className="flex-1 p-2 text-sm border border-gray-300 rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 p-2 text-sm border border-gray-300 dark:border-slate-600 rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400"
             rows={2}
             disabled={isLoading}
           />
@@ -243,7 +238,7 @@ export function AIHelperPanel({ problemId, isOpen, onClose, className }: AIHelpe
           </button>
         </div>
         
-        <div className="mt-2 text-xs text-gray-500">
+        <div className="mt-2 text-xs text-slate-500 dark:text-slate-400">
           Press Enter to send, Shift+Enter for new line
         </div>
       </div>

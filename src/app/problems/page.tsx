@@ -81,22 +81,22 @@ export default function ProblemsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Coding Problems</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">Coding Problems</h1>
+          <p className="text-slate-700 dark:text-slate-300">
             Practice coding with our curated collection of algorithmic problems
           </p>
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 mb-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Search */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 Search Problems
               </label>
               <div className="relative">
@@ -106,20 +106,20 @@ export default function ProblemsPage() {
                   placeholder="Search by title or description..."
                   value={searchQuery}
                   onChange={(e) => handleSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 bg-white dark:bg-slate-700"
                 />
               </div>
             </div>
 
             {/* Difficulty Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Difficulty
               </label>
               <select
                 value={selectedDifficulty}
                 onChange={(e) => handleDifficultyChange(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900"
               >
                 {difficulties.map((diff) => (
                   <option key={diff} value={diff}>
@@ -131,7 +131,7 @@ export default function ProblemsPage() {
 
             {/* Tags Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Tags
               </label>
               <div className="flex flex-wrap gap-2">

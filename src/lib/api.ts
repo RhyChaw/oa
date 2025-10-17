@@ -8,6 +8,7 @@ import type {
   ProblemFilters,
   RunResult 
 } from '@/types';
+import { judge0API } from './judge0-api';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
 
@@ -90,9 +91,75 @@ export const submissionsAPI = {
   },
 };
 
-// Test Runner API
+// Test Runner API with real code execution support
 export const runnerAPI = {
   async runTests(data: {
+    problemId: string;
+    code: string;
+    language: string;
+  }): Promise<APIResponse<RunResult>> {
+    // Check if we should use real code execution
+    const useRealExecution = process.env.NEXT_PUBLIC_USE_REAL_EXECUTION === 'true';
+    
+    if (useRealExecution) {
+      try {
+        // Get problem details to extract test cases
+        const problemResponse = await problemsAPI.getProblem(data.problemId);
+        if (!problemResponse.success || !problemResponse.data) {
+          throw new APIError('Failed to load problem details', 404);
+        }
+
+        const problem: Problem = problemResponse.data;
+        const testCases = problem.canonicalTestCases.map(tc => ({
+          input: tc.input,
+          expectedOutput: tc.expectedOutput,
+        }));
+
+        // Execute code using Judge0
+        const result = await judge0API.submitCode(
+          data.code,
+          data.language,
+          testCases
+        );
+
+        if (!result.success) {
+          throw new APIError(result.error || 'Code execution failed', 500);
+        }
+
+        // Convert Judge0 results to our format
+        const runResult: RunResult = {
+          success: result.results.every(r => r.passed),
+          output: result.results.map(r => 
+            `Input: ${r.input}\nExpected: ${r.expectedOutput}\nActual: ${r.actualOutput}${r.error ? `\nError: ${r.error}` : ''}`
+          ).join('\n\n'),
+          error: result.results.some(r => r.error) ? 
+            result.results.find(r => r.error)?.error : undefined,
+          testResults: result.results.map((r, index) => ({
+            testCase: index + 1,
+            passed: r.passed,
+            input: r.input,
+            expectedOutput: r.expectedOutput,
+            actualOutput: r.actualOutput,
+            error: r.error,
+          })),
+          runtime: result.results.reduce((sum, r) => sum + (r.runtime || 0), 0),
+          memory: Math.max(...result.results.map(r => r.memory || 0)),
+        };
+
+        return { success: true, data: runResult };
+      } catch (error) {
+        console.error('Real code execution failed, falling back to mock:', error);
+        // Fall back to mock execution
+        return this.mockRunTests(data);
+      }
+    } else {
+      // Use mock execution for development
+      return this.mockRunTests(data);
+    }
+  },
+
+  // Mock execution for development
+  async mockRunTests(data: {
     problemId: string;
     code: string;
     language: string;

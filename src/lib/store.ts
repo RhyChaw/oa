@@ -57,7 +57,7 @@ export const useAppStore = create<AppState>()(
       // Initial state
       user: null,
       isAuthenticated: false,
-      theme: 'system',
+      theme: 'dark',
       sidebarOpen: false,
       aiHelper: defaultAIHelperState,
       editorStates: {},

@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { cn } from '@/lib/utils';
 import type { EditorConfig, RunResult } from '@/types';
+import { useAppStore } from '@/lib/store';
+// Import Monaco types only, not the runtime
+import type * as monaco from 'monaco-editor';
 
 // Dynamically import Monaco Editor to avoid SSR issues
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), {
@@ -52,18 +55,44 @@ export function EditorWrapper({
   readOnly = false,
   problemId,
 }: EditorWrapperProps) {
+  const { theme } = useAppStore();
   const [code, setCode] = useState(initialCode);
   const [isRunning, setIsRunning] = useState(false);
   const [lastRunResult, setLastRunResult] = useState<RunResult | null>(null);
-  const editorRef = useRef<any>(null);
+  const [currentLanguage, setCurrentLanguage] = useState(language);
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const [editorConfig, setEditorConfig] = useState<EditorConfig>({
     language: languageMap[language] || 'javascript',
-    theme: 'vs-light',
+    theme: theme === 'dark' ? 'vs-dark' : 'vs-light',
     fontSize: 14,
     tabSize: 2,
     wordWrap: 'on',
     minimap: { enabled: false },
   });
+
+  // Update theme when it changes
+  useEffect(() => {
+    setEditorConfig(prev => ({
+      ...prev,
+      theme: theme === 'dark' ? 'vs-dark' : 'vs-light',
+    }));
+  }, [theme]);
+
+  // Update language when it changes
+  useEffect(() => {
+    setCurrentLanguage(language);
+    setEditorConfig(prev => ({
+      ...prev,
+      language: languageMap[language] || 'javascript',
+    }));
+    
+    // Update the editor language if it's mounted (client-side only)
+    if (typeof window !== 'undefined' && editorRef.current && editorRef.current.getModel()) {
+      import('monaco-editor').then((monaco) => {
+        monaco.editor.setModelLanguage(editorRef.current!.getModel()!, languageMap[language] || 'javascript');
+      });
+    }
+  }, [language]);
 
   // Auto-save functionality
   useEffect(() => {
@@ -121,35 +150,46 @@ export function EditorWrapper({
     }
   };
 
-  const handleEditorDidMount = (editor: any) => {
+  const handleEditorDidMount = (editor: monaco.editor.IStandaloneCodeEditor) => {
     editorRef.current = editor;
     
-    // Add keyboard shortcuts
+    // Prevent auto-scroll to bottom
+    editor.setScrollTop(0);
+    editor.setPosition({ lineNumber: 1, column: 1 });
+    
+    // Add keyboard shortcuts - use numeric constants to avoid import issues
     editor.addCommand(1 | 3, () => { // Ctrl/Cmd + Enter
       handleRun();
     });
     
-    editor.addCommand(1 | 49, (e: any) => { // Ctrl/Cmd + S
+    editor.addCommand(1 | 49, (e: monaco.IKeyboardEvent) => { // Ctrl/Cmd + S
       e.preventDefault();
       handleSave();
     });
   };
 
   return (
-    <div className={cn("flex flex-col h-full", className)}>
+    <div className={cn("flex flex-col h-full bg-white dark:bg-slate-800", className)}>
       {/* Editor Toolbar */}
-      <div className="flex items-center justify-between p-3 border-b bg-gray-50">
+      <div className="flex items-center justify-between p-3 border-b bg-gray-50 dark:bg-slate-700 border-gray-200 dark:border-slate-600">
         <div className="flex items-center gap-2">
           <select
-            value={language}
+            value={currentLanguage}
             onChange={(e) => {
               const newLanguage = e.target.value;
+              setCurrentLanguage(newLanguage);
               setEditorConfig(prev => ({
                 ...prev,
                 language: languageMap[newLanguage] || 'javascript',
               }));
+              // Update the editor language if it's mounted (client-side only)
+              if (typeof window !== 'undefined' && editorRef.current && editorRef.current.getModel()) {
+                import('monaco-editor').then((monaco) => {
+                  monaco.editor.setModelLanguage(editorRef.current!.getModel()!, languageMap[newLanguage] || 'javascript');
+                });
+              }
             }}
-            className="px-2 py-1 text-sm border rounded"
+            className="px-2 py-1 text-sm border border-gray-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100"
             disabled={readOnly}
           >
             <option value="javascript">JavaScript</option>
@@ -209,28 +249,43 @@ export function EditorWrapper({
             roundedSelection: false,
             scrollBeyondLastLine: false,
             automaticLayout: true,
-            padding: { top: 16, bottom: 16 },
+            padding: { top: 8, bottom: 8 },
+            // Fix Enter key behavior
+            acceptSuggestionOnEnter: 'on',
+            quickSuggestions: true,
+            suggestOnTriggerCharacters: true,
+            // Prevent auto-scrolling
+            scrollbar: {
+              vertical: 'auto',
+              horizontal: 'auto',
+              verticalScrollbarSize: 8,
+              horizontalScrollbarSize: 8,
+            },
+            // Prevent focus issues
+            domReadOnly: false,
+            // Prevent auto-scroll to bottom
+            scrollTop: 0,
           }}
         />
       </div>
 
       {/* Run Results */}
       {lastRunResult && (
-        <div className="border-t bg-gray-50 p-4 max-h-48 overflow-y-auto">
+        <div className="border-t border-gray-200 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 p-4 max-h-48 overflow-y-auto">
           <div className="flex items-center gap-2 mb-2">
             <div className={cn(
               "w-2 h-2 rounded-full",
               lastRunResult.success ? "bg-green-500" : "bg-red-500"
             )} />
-            <span className="font-medium">
+            <span className="font-medium text-slate-900 dark:text-slate-100">
               {lastRunResult.success ? 'Tests Passed' : 'Tests Failed'}
             </span>
           </div>
           
           {lastRunResult.output && (
             <div className="mb-2">
-              <div className="text-sm font-medium text-gray-700 mb-1">Output:</div>
-              <pre className="text-xs bg-white p-2 rounded border overflow-x-auto">
+              <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Output:</div>
+              <pre className="text-xs bg-white dark:bg-slate-800 p-2 rounded border border-gray-200 dark:border-slate-600 overflow-x-auto text-slate-900 dark:text-slate-100">
                 {lastRunResult.output}
               </pre>
             </div>
@@ -238,8 +293,8 @@ export function EditorWrapper({
           
           {lastRunResult.error && (
             <div className="mb-2">
-              <div className="text-sm font-medium text-red-700 mb-1">Error:</div>
-              <pre className="text-xs bg-red-50 p-2 rounded border text-red-800 overflow-x-auto">
+              <div className="text-sm font-medium text-red-700 dark:text-red-400 mb-1">Error:</div>
+              <pre className="text-xs bg-red-50 dark:bg-red-900/20 p-2 rounded border border-red-200 dark:border-red-800 text-red-800 dark:text-red-300 overflow-x-auto">
                 {lastRunResult.error}
               </pre>
             </div>
@@ -247,7 +302,7 @@ export function EditorWrapper({
           
           {lastRunResult.testResults.length > 0 && (
             <div>
-              <div className="text-sm font-medium text-gray-700 mb-1">Test Results:</div>
+              <div className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Test Results:</div>
               <div className="space-y-1">
                 {lastRunResult.testResults.map((result, index) => (
                   <div

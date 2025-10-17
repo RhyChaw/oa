@@ -4,18 +4,18 @@ import { Button } from '@/components/ui/button';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-slate-900">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-slate-100 mb-6">
               Master Coding with
               <span className="text-blue-600"> AI-Powered</span>
               <br />
               Practice Problems
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-700 dark:text-slate-300 mb-8 max-w-3xl mx-auto">
               Level up your coding skills with our curated collection of algorithmic problems, 
               in-browser editor, and intelligent AI assistance that guides you without giving away solutions.
             </p>
@@ -40,10 +40,10 @@ export default function HomePage() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
               Everything You Need to Excel
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-700 max-w-2xl mx-auto">
               Our platform combines the best tools and features to help you become a better programmer.
             </p>
           </div>
@@ -53,8 +53,8 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Code className="w-8 h-8 text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">In-Browser Editor</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">In-Browser Editor</h3>
+              <p className="text-slate-700">
                 Code directly in your browser with syntax highlighting, auto-completion, 
                 and support for multiple programming languages.
               </p>
@@ -64,8 +64,8 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Shield className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Safe Test Runner</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">Safe Test Runner</h3>
+              <p className="text-slate-700">
                 Run your code safely in a sandboxed environment with real-time feedback 
                 and detailed test results.
               </p>
@@ -75,8 +75,8 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Zap className="w-8 h-8 text-purple-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">AI Helper</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">AI Helper</h3>
+              <p className="text-slate-700">
                 Get intelligent hints and guidance without spoiling the solution. 
                 Learn through guided problem-solving.
               </p>
@@ -86,8 +86,8 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <BarChart3 className="w-8 h-8 text-yellow-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Progress Tracking</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">Progress Tracking</h3>
+              <p className="text-slate-700">
                 Monitor your progress, track submissions, and see your improvement 
                 over time with detailed analytics.
               </p>
@@ -97,8 +97,8 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="w-8 h-8 text-red-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Community</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">Community</h3>
+              <p className="text-slate-700">
                 Join a community of learners, share solutions, and learn from 
                 others' approaches to problem-solving.
               </p>
@@ -108,8 +108,8 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <ArrowRight className="w-8 h-8 text-indigo-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Multiple Languages</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-slate-900 mb-2">Multiple Languages</h3>
+              <p className="text-slate-700">
                 Practice in your preferred language with support for JavaScript, 
                 Python, Java, C++, and many more.
               </p>
