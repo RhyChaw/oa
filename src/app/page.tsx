@@ -6,12 +6,12 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white dark:bg-slate-900">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100">
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-800 dark:to-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-slate-100 mb-6">
               Master Coding with
-              <span className="text-blue-600"> AI-Powered</span>
+              <span className="text-blue-600 dark:text-blue-400"> AI-Powered</span>
               <br />
               Practice Problems
             </h1>
@@ -37,79 +37,79 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white dark:bg-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-slate-100 mb-4">
               Everything You Need to Excel
             </h2>
-            <p className="text-xl text-slate-700 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-700 dark:text-slate-300 max-w-2xl mx-auto">
               Our platform combines the best tools and features to help you become a better programmer.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="text-center p-6">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Code className="w-8 h-8 text-blue-600" />
+              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Code className="w-8 h-8 text-blue-600 dark:text-blue-400" />
               </div>
-              <h3 className="text-xl font-semibold text-slate-900 mb-2">In-Browser Editor</h3>
-              <p className="text-slate-700">
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">In-Browser Editor</h3>
+              <p className="text-slate-700 dark:text-slate-300">
                 Code directly in your browser with syntax highlighting, auto-completion, 
                 and support for multiple programming languages.
               </p>
             </div>
 
             <div className="text-center p-6">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-green-600" />
+              <div className="w-16 h-16 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="w-8 h-8 text-green-600 dark:text-green-400" />
               </div>
-              <h3 className="text-xl font-semibold text-slate-900 mb-2">Safe Test Runner</h3>
-              <p className="text-slate-700">
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">Safe Test Runner</h3>
+              <p className="text-slate-700 dark:text-slate-300">
                 Run your code safely in a sandboxed environment with real-time feedback 
                 and detailed test results.
               </p>
             </div>
 
             <div className="text-center p-6">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="w-8 h-8 text-purple-600" />
+              <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Zap className="w-8 h-8 text-purple-600 dark:text-purple-400" />
               </div>
-              <h3 className="text-xl font-semibold text-slate-900 mb-2">AI Helper</h3>
-              <p className="text-slate-700">
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">AI Helper</h3>
+              <p className="text-slate-700 dark:text-slate-300">
                 Get intelligent hints and guidance without spoiling the solution. 
                 Learn through guided problem-solving.
               </p>
             </div>
 
             <div className="text-center p-6">
-              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <BarChart3 className="w-8 h-8 text-yellow-600" />
+              <div className="w-16 h-16 bg-yellow-100 dark:bg-yellow-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <BarChart3 className="w-8 h-8 text-yellow-600 dark:text-yellow-400" />
               </div>
-              <h3 className="text-xl font-semibold text-slate-900 mb-2">Progress Tracking</h3>
-              <p className="text-slate-700">
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">Progress Tracking</h3>
+              <p className="text-slate-700 dark:text-slate-300">
                 Monitor your progress, track submissions, and see your improvement 
                 over time with detailed analytics.
               </p>
             </div>
 
             <div className="text-center p-6">
-              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="w-8 h-8 text-red-600" />
+              <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="w-8 h-8 text-red-600 dark:text-red-400" />
               </div>
-              <h3 className="text-xl font-semibold text-slate-900 mb-2">Community</h3>
-              <p className="text-slate-700">
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">Community</h3>
+              <p className="text-slate-700 dark:text-slate-300">
                 Join a community of learners, share solutions, and learn from 
                 others' approaches to problem-solving.
               </p>
             </div>
 
             <div className="text-center p-6">
-              <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <ArrowRight className="w-8 h-8 text-indigo-600" />
+              <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <ArrowRight className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
               </div>
-              <h3 className="text-xl font-semibold text-slate-900 mb-2">Multiple Languages</h3>
-              <p className="text-slate-700">
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">Multiple Languages</h3>
+              <p className="text-slate-700 dark:text-slate-300">
                 Practice in your preferred language with support for JavaScript, 
                 Python, Java, C++, and many more.
               </p>
@@ -119,13 +119,13 @@ export default function HomePage() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-gray-50 dark:bg-slate-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-slate-100 mb-4">
               How It Works
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-slate-300 max-w-2xl mx-auto">
               Get started in minutes and begin your coding journey.
             </p>
           </div>
@@ -135,8 +135,8 @@ export default function HomePage() {
               <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                 1
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Choose a Problem</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-100 mb-2">Choose a Problem</h3>
+              <p className="text-gray-600 dark:text-slate-300">
                 Browse our curated collection of problems, filter by difficulty, 
                 and pick one that matches your skill level.
               </p>
@@ -146,8 +146,8 @@ export default function HomePage() {
               <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                 2
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Code & Test</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-100 mb-2">Code & Test</h3>
+              <p className="text-gray-600 dark:text-slate-300">
                 Write your solution in the in-browser editor, run tests to check 
                 your progress, and get instant feedback.
               </p>
@@ -157,8 +157,8 @@ export default function HomePage() {
               <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                 3
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Get Help & Submit</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-100 mb-2">Get Help & Submit</h3>
+              <p className="text-gray-600 dark:text-slate-300">
                 Use the AI helper for hints when stuck, then submit your solution 
                 and track your progress.
               </p>
@@ -183,7 +183,7 @@ export default function HomePage() {
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
-            <Link href="/auth/register">
+            <Link href="/auth/signup">
               <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-white text-white hover:bg-white hover:text-blue-600">
                 Create Account
               </Button>

@@ -94,13 +94,13 @@ export function Navbar() {
             {/* User menu placeholder */}
             <div className="flex items-center space-x-2">
               <Link
-                href="/auth/login"
+                href="/auth/signin"
                 className="px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-md"
               >
                 Sign In
               </Link>
               <Link
-                href="/auth/register"
+                href="/auth/signup"
                 className="px-3 py-2 text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-md"
               >
                 Sign Up

@@ -60,6 +60,7 @@ export function EditorWrapper({
   const [isRunning, setIsRunning] = useState(false);
   const [lastRunResult, setLastRunResult] = useState<RunResult | null>(null);
   const [currentLanguage, setCurrentLanguage] = useState(language);
+  const [editorHeight, setEditorHeight] = useState('100%');
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const [editorConfig, setEditorConfig] = useState<EditorConfig>({
     language: languageMap[language] || 'javascript',
@@ -118,10 +119,28 @@ export function EditorWrapper({
     }
   }, [problemId, initialCode, readOnly]);
 
+  // Calculate initial height based on code content
+  useEffect(() => {
+    const lineCount = code.split('\n').length;
+    const lineHeight = 21; // Approximate line height
+    const padding = 16; // Top and bottom padding
+    const calculatedHeight = Math.min(lineCount * lineHeight + padding, 800);
+    setEditorHeight(`${calculatedHeight}px`);
+  }, [code]);
+
   const handleEditorChange = (value: string | undefined) => {
     const newCode = value || '';
     setCode(newCode);
     onChange?.(newCode);
+    
+    // Calculate optimal height based on content
+    if (editorRef.current) {
+      const lineCount = newCode.split('\n').length;
+      const lineHeight = 21; // Approximate line height
+      const padding = 16; // Top and bottom padding
+      const calculatedHeight = Math.min(lineCount * lineHeight + padding, 800);
+      setEditorHeight(`${calculatedHeight}px`);
+    }
   };
 
   const handleRun = async () => {
@@ -166,6 +185,9 @@ export function EditorWrapper({
       e.preventDefault();
       handleSave();
     });
+
+    // Ensure Enter key creates new lines and doesn't submit forms
+    // Monaco Editor handles Enter key by default for new lines
   };
 
   return (
@@ -231,9 +253,18 @@ export function EditorWrapper({
       </div>
 
       {/* Editor */}
-      <div className="flex-1 min-h-0">
+      <div 
+        className="flex-1 min-h-0 max-h-[800px] overflow-y-auto"
+        tabIndex={-1}
+        onKeyDown={(e) => {
+          // Prevent form submission on Enter key
+          if (e.key === 'Enter' && !e.ctrlKey && !e.metaKey) {
+            e.stopPropagation();
+          }
+        }}
+      >
         <MonacoEditor
-          height="100%"
+          height={editorHeight}
           language={editorConfig.language}
           theme={editorConfig.theme}
           value={code}
@@ -250,21 +281,42 @@ export function EditorWrapper({
             scrollBeyondLastLine: false,
             automaticLayout: true,
             padding: { top: 8, bottom: 8 },
-            // Fix Enter key behavior
+            // Fix Enter key behavior - ensure it creates new lines
             acceptSuggestionOnEnter: 'on',
             quickSuggestions: true,
             suggestOnTriggerCharacters: true,
-            // Prevent auto-scrolling
+            // Ensure proper keyboard handling
+            multiCursorModifier: 'ctrlCmd',
+            // Prevent any form submission behavior
+            enableSplitViewResizing: false,
+            // Configure scrolling behavior
             scrollbar: {
               vertical: 'auto',
               horizontal: 'auto',
               verticalScrollbarSize: 8,
               horizontalScrollbarSize: 8,
+              useShadows: false,
+              verticalHasArrows: false,
+              horizontalHasArrows: false,
+              verticalScrollbarHasSlider: true,
+              horizontalScrollbarHasSlider: true,
             },
             // Prevent focus issues
             domReadOnly: false,
             // Prevent auto-scroll to bottom
             scrollTop: 0,
+            // Ensure proper keyboard handling
+            contextmenu: true,
+            mouseWheelZoom: false,
+            // Disable any form submission behavior
+            domNode: undefined,
+            // Set maximum height and enable scrolling
+            maxHeight: 800,
+            scrollBeyondLastLine: false,
+            // Enable smooth scrolling
+            smoothScrolling: true,
+            // Configure line height for better scrolling
+            lineHeight: 1.5,
           }}
         />
       </div>
