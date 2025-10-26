@@ -1,0 +1,35 @@
+{
+    "problem": {
+      "id": "8e9c2b58-3c0b-4c7a-8a8f-2f2e7fd0a01a",
+      "slug": "two-sum",
+      "title": "Two Sum",
+      "difficulty": "Easy",
+      "statement_md": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+      "input_desc": "nums: int[], target: int",
+      "output_desc": "Two integer indices i and j (order not important)",
+      "constraints_md": "2 <= nums.length <= 10000; -1e9 <= nums[i] <= 1e9",
+      "examples_json": [
+        {"input":"nums=[2,7,11,15], target=9", "output":"[0,1]", "explanation":"2+7=9"}
+      ],
+      "tags": ["array","hash-table"],
+      "canonical_strategies": [{"idea":"single-pass map of needed complements", "when":"linear scan"}],
+      "pitfalls": ["reusing same index twice", "not handling duplicates"]
+    },
+    "scaffolds": [
+      {"lang":"python","starter_md":"Implement a function that returns two indices. Think about tracking complements; avoid nested loops."},
+      {"lang":"cpp","starter_md":"Return a pair of indices. Use a map of values to indices and scan once."}
+    ],
+    "tests": {
+      "public": [
+        {"input":"2 7 11 15 | 9","expected_output":"0 1"}
+      ],
+      "private": [
+        {"input":"3 3 | 6","expected_output":"0 1"}
+      ]
+    },
+    "chunks": [
+      {"role":"strategy","content":"Maintain a structure mapping value->index; check complements as you iterate."},
+      {"role":"pitfall","content":"Be careful when the two numbers are equal; ensure indices differ."},
+      {"role":"constraint","content":"n up to 1e4 suggests O(n) or O(n log n) approach, not O(n^2)."}
+    ]
+  }

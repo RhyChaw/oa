@@ -1,0 +1,23 @@
+# --- Core Framework ---
+fastapi
+uvicorn[standard]
+python-dotenv
+
+# --- Database + Vector Search ---
+psycopg2-binary
+sqlalchemy
+pgvector
+
+# --- LLM + Embedding Utilities ---
+requests
+sentence-transformers
+
+# --- Data Handling ---
+pandas
+numpy
+
+# --- Chat Memory + State ---
+diskcache
+
+# --- Optional: Linting/Debugging ---
+black

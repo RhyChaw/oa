@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: leetcoach-db
+    environment:
+      POSTGRES_USER: leet
+      POSTGRES_PASSWORD: coach
+      POSTGRES_DB: leetcode
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+  # optional local redis for memory if desired
+  redis:
+    image: redis:7
+    container_name: leetcoach-redis
+    ports:
+      - "6379:6379"
+volumes:
+  dbdata:
