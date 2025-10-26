@@ -1,0 +1,238 @@
+import { NextRequest, NextResponse } from 'next/server';
+import type { Problem } from '../../../../types';
+
+// Mock data - in a real app, this would come from a database
+const mockProblems: Record<string, Problem> = {
+  'two-sum': {
+    id: '1',
+    slug: 'two-sum',
+    title: 'Two Sum',
+    description: `
+      <p>Given an array of integers <code>nums</code> and an integer <code>target</code>, return indices of the two numbers such that they add up to <code>target</code>.</p>
+      
+      <p>You may assume that each input would have <strong>exactly one solution</strong>, and you may not use the same element twice.</p>
+      
+      <p>You can return the answer in any order.</p>
+      
+      <h3>Example 1:</h3>
+      <pre><code>Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].</code></pre>
+      
+      <h3>Example 2:</h3>
+      <pre><code>Input: nums = [3,2,4], target = 6
+Output: [1,2]</code></pre>
+      
+      <h3>Example 3:</h3>
+      <pre><code>Input: nums = [3,3], target = 6
+Output: [0,1]</code></pre>
+      
+      <h3>Constraints:</h3>
+      <ul>
+        <li><code>2 <= nums.length <= 10<sup>4</sup></code></li>
+        <li><code>-10<sup>9</sup> <= nums[i] <= 10<sup>9</sup></code></li>
+        <li><code>-10<sup>9</sup> <= target <= 10<sup>9</sup></code></li>
+        <li>Only one valid answer exists.</li>
+      </ul>
+    `,
+    difficulty: 'easy',
+    tags: ['array', 'hash-table'],
+    timeLimit: 2,
+    memoryLimit: 50,
+    canonicalLanguageHints: ['javascript', 'python', 'java'],
+    canonicalTestCases: [
+      {
+        id: '1',
+        input: '[2,7,11,15]\n9',
+        expectedOutput: '[0,1]',
+        visibility: 'public',
+        weight: 1,
+      },
+      {
+        id: '2',
+        input: '[3,2,4]\n6',
+        expectedOutput: '[1,2]',
+        visibility: 'public',
+        weight: 1,
+      },
+      {
+        id: '3',
+        input: '[3,3]\n6',
+        expectedOutput: '[0,1]',
+        visibility: 'public',
+        weight: 1,
+      },
+    ],
+    canonicalSolutionHash: 'abc123',
+    points: 10,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z',
+  },
+  'add-two-numbers': {
+    id: '2',
+    slug: 'add-two-numbers',
+    title: 'Add Two Numbers',
+    description: `
+      <p>You are given two <strong>non-empty</strong> linked lists representing two non-negative integers. The digits are stored in <strong>reverse order</strong>, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.</p>
+      
+      <p>You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p>
+      
+      <h3>Example 1:</h3>
+      <pre><code>Input: l1 = [2,4,3], l2 = [5,6,4]
+Output: [7,0,8]
+Explanation: 342 + 465 = 807.</code></pre>
+      
+      <h3>Example 2:</h3>
+      <pre><code>Input: l1 = [0], l2 = [0]
+Output: [0]</code></pre>
+      
+      <h3>Example 3:</h3>
+      <pre><code>Input: l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+Output: [8,9,9,9,0,0,0,1]</code></pre>
+    `,
+    difficulty: 'medium',
+    tags: ['linked-list', 'math', 'recursion'],
+    timeLimit: 3,
+    memoryLimit: 50,
+    canonicalLanguageHints: ['javascript', 'python', 'java'],
+    canonicalTestCases: [
+      {
+        id: '1',
+        input: '[2,4,3]\n[5,6,4]',
+        expectedOutput: '[7,0,8]',
+        visibility: 'public',
+        weight: 1,
+      },
+      {
+        id: '2',
+        input: '[0]\n[0]',
+        expectedOutput: '[0]',
+        visibility: 'public',
+        weight: 1,
+      },
+    ],
+    canonicalSolutionHash: 'def456',
+    points: 20,
+    createdAt: '2024-01-02T00:00:00Z',
+    updatedAt: '2024-01-02T00:00:00Z',
+  },
+  'longest-substring-without-repeating-characters': {
+    id: '3',
+    slug: 'longest-substring-without-repeating-characters',
+    title: 'Longest Substring Without Repeating Characters',
+    description: `
+      <p>Given a string <code>s</code>, find the length of the <strong>longest substring</strong> without repeating characters.</p>
+      
+      <h3>Example 1:</h3>
+      <pre><code>Input: s = "abcabcbb"
+Output: 3
+Explanation: The answer is "abc", with the length of 3.</code></pre>
+      
+      <h3>Example 2:</h3>
+      <pre><code>Input: s = "bbbbb"
+Output: 1
+Explanation: The answer is "b", with the length of 1.</code></pre>
+      
+      <h3>Example 3:</h3>
+      <pre><code>Input: s = "pwwkew"
+Output: 3
+Explanation: The answer is "wke", with the length of 3.
+Notice that the answer must be a substring, "pwke" is a subsequence and not a substring.</code></pre>
+    `,
+    difficulty: 'medium',
+    tags: ['hash-table', 'string', 'sliding-window'],
+    timeLimit: 3,
+    memoryLimit: 50,
+    canonicalLanguageHints: ['javascript', 'python', 'java'],
+    canonicalTestCases: [
+      {
+        id: '1',
+        input: '"abcabcbb"',
+        expectedOutput: '3',
+        visibility: 'public',
+        weight: 1,
+      },
+      {
+        id: '2',
+        input: '"bbbbb"',
+        expectedOutput: '1',
+        visibility: 'public',
+        weight: 1,
+      },
+      {
+        id: '3',
+        input: '"pwwkew"',
+        expectedOutput: '3',
+        visibility: 'public',
+        weight: 1,
+      },
+    ],
+    canonicalSolutionHash: 'ghi789',
+    points: 25,
+    createdAt: '2024-01-03T00:00:00Z',
+    updatedAt: '2024-01-03T00:00:00Z',
+  },
+  'median-of-two-sorted-arrays': {
+    id: '4',
+    slug: 'median-of-two-sorted-arrays',
+    title: 'Median of Two Sorted Arrays',
+    description: `
+      <p>Given two sorted arrays <code>nums1</code> and <code>nums2</code> of size <code>m</code> and <code>n</code> respectively, return <strong>the median</strong> of the two sorted arrays.</p>
+      
+      <p>The overall run time complexity should be <code>O(log (m+n))</code>.</p>
+      
+      <h3>Example 1:</h3>
+      <pre><code>Input: nums1 = [1,3], nums2 = [2]
+Output: 2.00000
+Explanation: merged array = [1,2,3] and median is 2.</code></pre>
+      
+      <h3>Example 2:</h3>
+      <pre><code>Input: nums1 = [1,2], nums2 = [3,4]
+Output: 2.50000
+Explanation: merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.</code></pre>
+    `,
+    difficulty: 'hard',
+    tags: ['array', 'binary-search', 'divide-and-conquer'],
+    timeLimit: 5,
+    memoryLimit: 50,
+    canonicalLanguageHints: ['javascript', 'python', 'java'],
+    canonicalTestCases: [
+      {
+        id: '1',
+        input: '[1,3]\n[2]',
+        expectedOutput: '2.00000',
+        visibility: 'public',
+        weight: 1,
+      },
+      {
+        id: '2',
+        input: '[1,2]\n[3,4]',
+        expectedOutput: '2.50000',
+        visibility: 'public',
+        weight: 1,
+      },
+    ],
+    canonicalSolutionHash: 'jkl012',
+    points: 50,
+    createdAt: '2024-01-04T00:00:00Z',
+    updatedAt: '2024-01-04T00:00:00Z',
+  },
+};
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  const { slug } = await params;
+  
+  const problem = mockProblems[slug];
+  
+  if (!problem) {
+    return NextResponse.json(
+      { success: false, message: 'Problem not found' },
+      { status: 404 }
+    );
+  }
+
+  return NextResponse.json({ success: true, data: problem });
+}
