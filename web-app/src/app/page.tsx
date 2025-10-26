@@ -100,7 +100,7 @@ export default function HomePage() {
               <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">Community</h3>
               <p className="text-slate-700 dark:text-slate-300">
                 Join a community of learners, share solutions, and learn from 
-                others' approaches to problem-solving.
+                others&apos; approaches to problem-solving.
               </p>
             </div>
 

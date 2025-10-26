@@ -3,7 +3,7 @@ export const queryKeys = {
   problems: {
     all: ['problems'] as const,
     lists: () => [...queryKeys.problems.all, 'list'] as const,
-    list: (filters: any) => [...queryKeys.problems.lists(), filters] as const,
+    list: (filters: unknown) => [...queryKeys.problems.lists(), filters] as const,
     details: () => [...queryKeys.problems.all, 'detail'] as const,
     detail: (slug: string) => [...queryKeys.problems.details(), slug] as const,
     tags: () => [...queryKeys.problems.all, 'tags'] as const,

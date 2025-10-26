@@ -98,7 +98,7 @@ export default function SignInPage() {
 
       setUser(mockUser);
       router.push('/dashboard');
-    } catch (error) {
+    } catch {
       setErrors({
         general: 'Invalid email or password. Please try again.',
       });
@@ -135,7 +135,7 @@ export default function SignInPage() {
 
       setUser(mockUser);
       router.push('/dashboard');
-    } catch (error) {
+    } catch {
       setErrors({
         general: `Failed to sign in with ${provider}. Please try again.`,
       });
@@ -254,7 +254,7 @@ export default function SignInPage() {
         {/* Sign Up Link */}
         <div className="mt-8 text-center">
           <p className="text-slate-600 dark:text-slate-400">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link
               href="/auth/signup"
               className="text-blue-600 dark:text-blue-400 hover:underline font-medium"

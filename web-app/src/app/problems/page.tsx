@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Search, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ProblemCard } from '../../components/ui/problem-card';
 import { Button } from '../../components/ui/button';
 import { problemsAPI } from '../../lib/api';
@@ -10,7 +10,6 @@ import { queryKeys } from '../../lib/query-client';
 import type { ProblemFilters } from '../../types';
 
 const difficulties = ['all', 'easy', 'medium', 'hard'] as const;
-const tags = ['array', 'string', 'tree', 'graph', 'dynamic-programming', 'greedy', 'sorting', 'searching'];
 
 export default function ProblemsPage() {
   const [filters, setFilters] = useState<ProblemFilters>({

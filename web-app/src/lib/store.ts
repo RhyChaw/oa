@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { User, AIHelperState, EditorState, UserPreferences } from '../types';
+import type { User, AIHelperState, EditorState, UserPreferences, AIInteraction } from '../types';
 
 interface AppState {
   // User state
@@ -26,7 +26,7 @@ interface AppState {
   // AI Helper actions
   setAIHelperOpen: (open: boolean) => void;
   setAIAssistanceLevel: (level: 'hint' | 'guided' | 'walkthrough') => void;
-  addAIInteraction: (interaction: any) => void;
+  addAIInteraction: (interaction: AIInteraction) => void;
   setAILoading: (loading: boolean) => void;
   
   // Editor actions

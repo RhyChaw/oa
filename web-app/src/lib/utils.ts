@@ -63,7 +63,6 @@ export function detectCodeViolation(content: string): {
   maskedContent?: string;
 } {
   // Heuristics to detect full code solutions
-  const lines = content.split('\n');
   const codeBlocks = content.match(/```[\s\S]*?```/g) || [];
   
   // Check for long contiguous code blocks
@@ -124,7 +123,7 @@ export function formatDate(date: string | Date): string {
   });
 }
 
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -135,7 +134,7 @@ export function debounce<T extends (...args: any[]) => any>(
   };
 }
 
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {

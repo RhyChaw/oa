@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Play, Code, Database } from 'lucide-react';
+import { Code, Database } from 'lucide-react';
 
 export function ExecutionToggle() {
   const [useRealExecution, setUseRealExecution] = useState(false);

@@ -37,7 +37,7 @@ export default function ForgotPasswordPage() {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       setIsSubmitted(true);
-    } catch (error) {
+    } catch {
       setError('Failed to send reset email. Please try again.');
     } finally {
       setIsLoading(false);
@@ -57,14 +57,14 @@ export default function ForgotPasswordPage() {
           </h1>
           
           <p className="text-slate-600 dark:text-slate-400 mb-6">
-            We've sent a password reset link to{' '}
+            We&apos;ve sent a password reset link to{' '}
             <span className="font-medium text-slate-900 dark:text-slate-100">
               {email}
             </span>
           </p>
           
           <p className="text-sm text-slate-500 dark:text-slate-400 mb-8">
-            Didn't receive the email? Check your spam folder or{' '}
+            Didn&apos;t receive the email? Check your spam folder or{' '}
             <button
               onClick={() => {
                 setIsSubmitted(false);
@@ -95,7 +95,7 @@ export default function ForgotPasswordPage() {
             Forgot password?
           </h1>
           <p className="text-slate-600 dark:text-slate-400">
-            No worries, we'll send you reset instructions
+            No worries, we&apos;ll send you reset instructions
           </p>
         </div>
 

@@ -19,6 +19,8 @@
   --radius: 0.5rem;
 }
 
+/* css-has-inline-spacing: 0; */
+/* @theme directive is valid Tailwind CSS v4 syntax */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -96,6 +98,7 @@ body {
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -103,6 +106,7 @@ body {
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

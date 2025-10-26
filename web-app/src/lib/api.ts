@@ -135,6 +135,7 @@ export const runnerAPI = {
           error: result.results.some(r => r.error) ? 
             result.results.find(r => r.error)?.error : undefined,
           testResults: result.results.map((r, index) => ({
+            testCaseId: `test-${index + 1}`,
             testCase: index + 1,
             passed: r.passed,
             input: r.input,
@@ -202,12 +203,12 @@ export const aiAPI = {
 
 // Auth API
 export const authAPI = {
-  async getCurrentUser(): Promise<APIResponse<any>> {
+  async getCurrentUser(): Promise<APIResponse<unknown>> {
     const response = await fetch(`${API_BASE_URL}/auth/me`);
-    return handleResponse<APIResponse<any>>(response);
+    return handleResponse<APIResponse<unknown>>(response);
   },
   
-  async login(credentials: { email: string; password: string }): Promise<APIResponse<any>> {
+  async login(credentials: { email: string; password: string }): Promise<APIResponse<unknown>> {
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
@@ -215,7 +216,7 @@ export const authAPI = {
       },
       body: JSON.stringify(credentials),
     });
-    return handleResponse<APIResponse<any>>(response);
+    return handleResponse<APIResponse<unknown>>(response);
   },
   
   async logout(): Promise<APIResponse<void>> {

@@ -38,7 +38,7 @@ export default function SettingsPage() {
     // In a real app, show a success message
   };
 
-  const handleSettingChange = (key: string, value: any) => {
+  const handleSettingChange = (key: string, value: string | boolean) => {
     setSettings(prev => ({ ...prev, [key]: value }));
   };
 

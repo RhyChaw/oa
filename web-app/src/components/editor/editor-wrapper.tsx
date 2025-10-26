@@ -287,8 +287,6 @@ export function EditorWrapper({
             suggestOnTriggerCharacters: true,
             // Ensure proper keyboard handling
             multiCursorModifier: 'ctrlCmd',
-            // Prevent any form submission behavior
-            enableSplitViewResizing: false,
             // Configure scrolling behavior
             scrollbar: {
               vertical: 'auto',
@@ -298,21 +296,12 @@ export function EditorWrapper({
               useShadows: false,
               verticalHasArrows: false,
               horizontalHasArrows: false,
-              verticalScrollbarHasSlider: true,
-              horizontalScrollbarHasSlider: true,
             },
             // Prevent focus issues
             domReadOnly: false,
-            // Prevent auto-scroll to bottom
-            scrollTop: 0,
             // Ensure proper keyboard handling
             contextmenu: true,
             mouseWheelZoom: false,
-            // Disable any form submission behavior
-            domNode: undefined,
-            // Set maximum height and enable scrolling
-            maxHeight: 800,
-            scrollBeyondLastLine: false,
             // Enable smooth scrolling
             smoothScrolling: true,
             // Configure line height for better scrolling

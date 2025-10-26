@@ -11,7 +11,7 @@ import { problemsAPI, runnerAPI } from '../../../lib/api';
 import { queryKeys } from '../../../lib/query-client';
 import { useAppStore } from '../../../lib/store';
 import { cn, formatRuntime, formatMemory } from '../../../lib/utils';
-import type { Problem, RunResult, Submission } from '../../../types';
+import type { RunResult } from '../../../types';
 
 export default function ProblemPage() {
   const params = useParams();
@@ -52,17 +52,6 @@ export default function ProblemPage() {
         code: newCode,
         language,
         isDirty: newCode !== '',
-      });
-    }
-  };
-
-  const handleLanguageChange = (newLanguage: string) => {
-    setLanguage(newLanguage);
-    if (problem) {
-      setEditorState(problem.id, {
-        code,
-        language: newLanguage,
-        isDirty: true,
       });
     }
   };
@@ -140,7 +129,7 @@ export default function ProblemPage() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-900">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Problem Not Found</h2>
-          <p className="text-slate-600 dark:text-slate-400 mb-4">The problem you're looking for doesn't exist.</p>
+          <p className="text-slate-600 dark:text-slate-400 mb-4">The problem you&apos;re looking for doesn&apos;t exist.</p>
           <Button onClick={() => window.history.back()}>
             Go Back
           </Button>

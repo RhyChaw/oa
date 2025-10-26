@@ -8,7 +8,7 @@ import { FormInput } from '../../../components/auth/form-input';
 import { SocialAuthButtons } from '../../../components/auth/social-auth-buttons';
 import { Button } from '../../../components/ui/button';
 import { useAppStore } from '../../../lib/store';
-import { Mail, Lock, User, AlertCircle, CheckCircle } from 'lucide-react';
+import { Mail, Lock, User, AlertCircle } from 'lucide-react';
 
 interface FormData {
   displayName: string;
@@ -125,7 +125,7 @@ export default function SignUpPage() {
 
       setUser(mockUser);
       router.push('/dashboard');
-    } catch (error) {
+    } catch {
       setErrors({
         general: 'Failed to create account. Please try again.',
       });
@@ -162,7 +162,7 @@ export default function SignUpPage() {
 
       setUser(mockUser);
       router.push('/dashboard');
-    } catch (error) {
+    } catch {
       setErrors({
         general: `Failed to sign up with ${provider}. Please try again.`,
       });

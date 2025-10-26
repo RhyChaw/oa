@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { X, Send, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
-import { cn, detectCodeViolation } from '../../lib/utils';
+import { cn } from '../../lib/utils';
 import { useAppStore } from '../../lib/store';
 import { aiAPI } from '../../lib/api';
 import type { AIInteraction, AssistanceLevel, AIRequest } from '../../types';
@@ -32,14 +32,14 @@ const assistanceLevels: { value: AssistanceLevel; label: string; description: st
   }
 ];
 
-export function AIHelperPanel({ problemId, isOpen, onClose, className }: AIHelperPanelProps) {
+export function AIHelperPanel({ problemId, onClose }: AIHelperPanelProps) {
   const [question, setQuestion] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [conversation, setConversation] = useState<AIInteraction[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   const { aiHelper, setAILoading, addAIInteraction } = useAppStore();
-  const { currentLevel, isLoading: storeLoading } = aiHelper;
+  const { currentLevel } = aiHelper;
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
