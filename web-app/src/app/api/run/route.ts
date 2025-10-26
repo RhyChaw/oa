@@ -54,8 +54,13 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function getMockTestCases(problemId: string) {
-  const testCases: Record<string, any[]> = {
+interface MockTestCase {
+  input: string;
+  expected: string;
+}
+
+function getMockTestCases(problemId: string): MockTestCase[] {
+  const testCases: Record<string, MockTestCase[]> = {
     '1': [ // Two Sum
       { input: '[2,7,11,15]\n9', expected: '[0,1]' },
       { input: '[3,2,4]\n6', expected: '[1,2]' },
@@ -79,7 +84,7 @@ function getMockTestCases(problemId: string) {
   return testCases[problemId] || [];
 }
 
-async function executeCode(code: string, language: string, testCases: any[]) {
+async function executeCode(code: string, language: string, testCases: MockTestCase[]) {
   // This is a mock implementation
   // In a real app, you would:
   // 1. Sanitize the code

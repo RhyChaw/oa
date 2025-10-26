@@ -23,7 +23,7 @@ const mockAIResponses = {
 
 export async function POST(request: NextRequest) {
   try {
-    const { problemId, question, assistanceLevel, context }: AIRequest = await request.json();
+    const { problemId, question, assistanceLevel }: AIRequest = await request.json();
 
     if (!problemId || !question || !assistanceLevel) {
       return NextResponse.json(
