@@ -100,6 +100,12 @@ export function Navbar() {
                 Sign In
               </Link>
               <Link
+                href="/recruiter"
+                className="px-3 py-2 text-sm text-[#9CA3AF] hover:text-[#6C63FF] hover:bg-[#1C1F2E] rounded-md transition-colors"
+              >
+                Recruiter
+              </Link>
+              <Link
                 href="/auth/signup"
                 className="px-3 py-2 text-sm text-[#0A0A0A] bg-[#00FFFF] hover:bg-[#00FFFF]/90 rounded-md font-semibold transition-colors"
               >
