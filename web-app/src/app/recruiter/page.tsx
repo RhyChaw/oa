@@ -79,34 +79,32 @@ export default function RecruiterPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      {/* Tabs Navigation */}
-      <div className="bg-white border-b border-[#E2E8F0] sticky top-16 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-1 h-14">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    activeTab === tab.id
-                      ? 'bg-[#2563EB] text-white'
-                      : 'text-[#64748B] hover:bg-[#F1F5F9]'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
+    <div className="min-h-screen bg-[#F8FAFC] flex">
+      {/* Sidebar */}
+      <div className="w-64 bg-white border-r border-[#E2E8F0] sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
+        <div className="p-4">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors mb-2 ${
+                  activeTab === tab.id
+                    ? 'bg-[#2563EB] text-white'
+                    : 'text-[#64748B] hover:bg-[#F1F5F9]'
+                }`}
+              >
+                <Icon className="w-5 h-5" />
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex-1 px-4 sm:px-6 lg:px-8 py-8">
         {/* Dashboard Tab */}
         {activeTab === 'dashboard' && (
           <div className="space-y-8">
@@ -286,26 +284,32 @@ export default function RecruiterPage() {
 
         {/* Other tabs - placeholder */}
         {activeTab === 'insights' && (
-          <div className="text-center py-12">
-            <Brain className="w-16 h-16 text-[#8B5CF6] mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-[#1E293B] mb-2">AI Insights</h2>
-            <p className="text-[#64748B]">AI-powered analytics coming soon</p>
+          <div className="max-w-4xl">
+            <div className="text-center py-12">
+              <Brain className="w-16 h-16 text-[#8B5CF6] mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-[#1E293B] mb-2">AI Insights</h2>
+              <p className="text-[#64748B]">AI-powered analytics coming soon</p>
+            </div>
           </div>
         )}
 
         {activeTab === 'reports' && (
-          <div className="text-center py-12">
-            <FileBarChart className="w-16 h-16 text-[#2563EB] mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-[#1E293B] mb-2">Reports</h2>
-            <p className="text-[#64748B]">Generate and export reports</p>
+          <div className="max-w-4xl">
+            <div className="text-center py-12">
+              <FileBarChart className="w-16 h-16 text-[#2563EB] mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-[#1E293B] mb-2">Reports</h2>
+              <p className="text-[#64748B]">Generate and export reports</p>
+            </div>
           </div>
         )}
 
         {activeTab === 'settings' && (
-          <div className="text-center py-12">
-            <Settings className="w-16 h-16 text-[#64748B] mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-[#1E293B] mb-2">Settings</h2>
-            <p className="text-[#64748B]">Manage your organization settings</p>
+          <div className="max-w-4xl">
+            <div className="text-center py-12">
+              <Settings className="w-16 h-16 text-[#64748B] mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-[#1E293B] mb-2">Settings</h2>
+              <p className="text-[#64748B]">Manage your organization settings</p>
+            </div>
           </div>
         )}
       </div>
