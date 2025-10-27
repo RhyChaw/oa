@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { AuthLayout } from '../../../components/auth/auth-layout';
 import { FormInput } from '../../../components/auth/form-input';
 import { SocialAuthButtons } from '../../../components/auth/social-auth-buttons';
 import { Button } from '../../../components/ui/button';
@@ -184,23 +183,23 @@ export default function SignUpPage() {
   const passwordStrength = getPasswordStrength(formData.password);
 
   return (
-    <AuthLayout>
-      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md mx-auto">
+    <div className="min-h-screen flex items-center justify-center bg-[#0A0A0A] px-4 py-12">
+      <div className="bg-[#1C1F2E] rounded-2xl border border-[#1C1F2E] shadow-2xl p-6 sm:p-8 w-full max-w-md hover:border-[#00FFFF]/30 transition-all">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">
+          <h1 className="text-3xl font-bold text-[#E5E7EB] mb-2">
             Create your account
           </h1>
-          <p className="text-slate-600 dark:text-slate-400">
+          <p className="text-[#9CA3AF]">
             Join thousands of developers improving their skills
           </p>
         </div>
 
         {/* General Error */}
         {errors.general && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-center space-x-2">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" />
-            <span className="text-sm text-red-600 dark:text-red-400">
+          <div className="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center space-x-2">
+            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+            <span className="text-sm text-red-500">
               {errors.general}
             </span>
           </div>
@@ -220,10 +219,10 @@ export default function SignUpPage() {
         {/* Divider */}
         <div className="relative mb-8">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-slate-200 dark:border-slate-600" />
+            <div className="w-full border-t border-[#1C1F2E]" />
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+            <span className="px-4 bg-[#1C1F2E] text-[#9CA3AF]">
               Or continue with email
             </span>
           </div>
@@ -273,7 +272,7 @@ export default function SignUpPage() {
             {formData.password && (
               <div className="mt-2">
                 <div className="flex items-center space-x-2 mb-1">
-                  <div className="flex-1 bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                  <div className="flex-1 bg-[#0A0A0A] rounded-full h-2">
                     <div
                       className={`h-2 rounded-full transition-all duration-300 ${
                         passwordStrength <= 2
@@ -285,11 +284,11 @@ export default function SignUpPage() {
                       style={{ width: `${(passwordStrength / 5) * 100}%` }}
                     />
                   </div>
-                  <span className="text-xs text-slate-500 dark:text-slate-400">
+                  <span className="text-xs text-[#9CA3AF]">
                     {passwordStrength <= 2 ? 'Weak' : passwordStrength <= 3 ? 'Medium' : 'Strong'}
                   </span>
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400">
+                <div className="text-xs text-[#9CA3AF]">
                   Must contain uppercase, lowercase, and number
                 </div>
               </div>
@@ -316,15 +315,15 @@ export default function SignUpPage() {
                 type="checkbox"
                 checked={acceptTerms}
                 onChange={(e) => setAcceptTerms(e.target.checked)}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                className="w-4 h-4 text-[#00FFFF] bg-[#0A0A0A] border-[#1C1F2E] rounded focus:ring-[#00FFFF] focus:ring-2"
                 disabled={isLoading}
               />
             </div>
-            <div className="text-sm text-slate-600 dark:text-slate-400">
+            <div className="text-sm text-[#9CA3AF]">
               I agree to the{' '}
               <Link
                 href="/terms"
-                className="text-blue-600 dark:text-blue-400 hover:underline"
+                className="text-[#00FFFF] hover:underline"
                 target="_blank"
               >
                 Terms of Service
@@ -332,7 +331,7 @@ export default function SignUpPage() {
               and{' '}
               <Link
                 href="/privacy"
-                className="text-blue-600 dark:text-blue-400 hover:underline"
+                className="text-[#00FFFF] hover:underline"
                 target="_blank"
               >
                 Privacy Policy
@@ -343,7 +342,7 @@ export default function SignUpPage() {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full h-12 text-base font-medium bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full h-12 text-base font-semibold bg-[#00FFFF] hover:bg-[#00FFFF]/90 text-[#0A0A0A] rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
             loading={isLoading}
             disabled={isLoading || !acceptTerms}
           >
@@ -353,17 +352,17 @@ export default function SignUpPage() {
 
         {/* Sign In Link */}
         <div className="mt-8 text-center">
-          <p className="text-slate-600 dark:text-slate-400">
+          <p className="text-[#9CA3AF]">
             Already have an account?{' '}
             <Link
               href="/auth/signin"
-              className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+              className="text-[#00FFFF] hover:underline font-medium"
             >
               Sign in
             </Link>
           </p>
         </div>
       </div>
-    </AuthLayout>
+    </div>
   );
 }

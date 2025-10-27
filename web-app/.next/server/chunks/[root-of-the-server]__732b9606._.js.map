@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 55, "column": 0}, "map": {"version":3,"sources":["file:///Users/rhychaw/projects/oa/web-app/src/app/api/problems/tags/route.ts"],"sourcesContent":["import { NextResponse } from 'next/server';\n\nconst availableTags = [\n  'array',\n  'string',\n  'hash-table',\n  'linked-list',\n  'tree',\n  'graph',\n  'dynamic-programming',\n  'greedy',\n  'sorting',\n  'searching',\n  'binary-search',\n  'divide-and-conquer',\n  'backtracking',\n  'stack',\n  'queue',\n  'heap',\n  'sliding-window',\n  'two-pointers',\n  'math',\n  'recursion',\n  'bit-manipulation',\n  'trie',\n  'union-find',\n  'topological-sort',\n  'minimum-spanning-tree',\n  'shortest-path',\n  'geometry',\n  'simulation',\n  'design',\n  'database',\n  'shell',\n  'concurrency',\n];\n\nexport async function GET() {\n  return NextResponse.json({ \n    success: true, \n    data: availableTags \n  });\n}\n"],"names":[],"mappings":";;;;AAAA;;AAEA,MAAM,gBAAgB;IACpB;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;IACA;CACD;AAEM,eAAe;IACpB,OAAO,sJAAY,CAAC,IAAI,CAAC;QACvB,SAAS;QACT,MAAM;IACR;AACF","debugId":null}}]
+}

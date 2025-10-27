@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { AuthLayout } from '../../../components/auth/auth-layout';
 import { FormInput } from '../../../components/auth/form-input';
 import { SocialAuthButtons } from '../../../components/auth/social-auth-buttons';
 import { Button } from '../../../components/ui/button';
@@ -145,23 +144,23 @@ export default function SignInPage() {
   };
 
   return (
-    <AuthLayout>
-      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md mx-auto">
+    <div className="min-h-screen flex items-center justify-center bg-[#0A0A0A] px-4 py-12">
+      <div className="bg-[#1C1F2E] rounded-2xl border border-[#1C1F2E] shadow-2xl p-6 sm:p-8 w-full max-w-md hover:border-[#00FFFF]/30 transition-all">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">
+          <h1 className="text-3xl font-bold text-[#E5E7EB] mb-2">
             Welcome back
           </h1>
-          <p className="text-slate-600 dark:text-slate-400">
+          <p className="text-[#9CA3AF]">
             Sign in to your account to continue coding
           </p>
         </div>
 
         {/* General Error */}
         {errors.general && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-center space-x-2">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" />
-            <span className="text-sm text-red-600 dark:text-red-400">
+          <div className="mb-6 p-4 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center space-x-2">
+            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+            <span className="text-sm text-red-500">
               {errors.general}
             </span>
           </div>
@@ -181,10 +180,10 @@ export default function SignInPage() {
         {/* Divider */}
         <div className="relative mb-8">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-slate-200 dark:border-slate-600" />
+            <div className="w-full border-t border-[#1C1F2E]" />
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+            <span className="px-4 bg-[#1C1F2E] text-[#9CA3AF]">
               Or continue with email
             </span>
           </div>
@@ -219,22 +218,22 @@ export default function SignInPage() {
 
           {/* Remember Me & Forgot Password */}
           <div className="flex items-center justify-between">
-            <label className="flex items-center space-x-2 cursor-pointer">
+              <label className="flex items-center space-x-2 cursor-pointer">
               <input
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                className="w-4 h-4 text-[#00FFFF] bg-[#0A0A0A] border-[#1C1F2E] rounded focus:ring-[#00FFFF] focus:ring-2"
                 disabled={isLoading}
               />
-              <span className="text-sm text-slate-600 dark:text-slate-400">
+              <span className="text-sm text-[#9CA3AF]">
                 Remember me
               </span>
             </label>
 
             <Link
               href="/auth/forgot-password"
-              className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+              className="text-sm text-[#00FFFF] hover:underline"
             >
               Forgot password?
             </Link>
@@ -243,7 +242,7 @@ export default function SignInPage() {
           {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full h-12 text-base font-medium bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full h-12 text-base font-semibold bg-[#00FFFF] hover:bg-[#00FFFF]/90 text-[#0A0A0A] rounded-lg transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
             loading={isLoading}
             disabled={isLoading}
           >
@@ -253,17 +252,17 @@ export default function SignInPage() {
 
         {/* Sign Up Link */}
         <div className="mt-8 text-center">
-          <p className="text-slate-600 dark:text-slate-400">
+          <p className="text-[#9CA3AF]">
             Don&apos;t have an account?{' '}
             <Link
               href="/auth/signup"
-              className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+              className="text-[#00FFFF] hover:underline font-medium"
             >
               Sign up for free
             </Link>
           </p>
         </div>
       </div>
-    </AuthLayout>
+    </div>
   );
 }

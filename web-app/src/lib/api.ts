@@ -44,6 +44,10 @@ export const problemsAPI = {
     if (filters.difficulty) params.append('difficulty', filters.difficulty);
     if (filters.tags?.length) params.append('tags', filters.tags.join(','));
     if (filters.search) params.append('search', filters.search);
+    if (filters.type) params.append('type', filters.type);
+    if (filters.category) params.append('category', filters.category);
+    if (filters.aiAllowed !== undefined) params.append('aiAllowed', filters.aiAllowed.toString());
+    if (filters.duration) params.append('duration', filters.duration);
     if (filters.page) params.append('page', filters.page.toString());
     if (filters.limit) params.append('limit', filters.limit.toString());
     

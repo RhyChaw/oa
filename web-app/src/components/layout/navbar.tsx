@@ -16,13 +16,13 @@ export function Navbar() {
   };
 
   return (
-    <nav className="bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 shadow-sm">
+    <nav className="bg-[#0A0A0A] border-b border-[#1C1F2E] shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left side - Logo and Navigation */}
           <div className="flex items-center space-x-8">
-            <Link href="/" className="text-xl font-bold text-slate-900 dark:text-slate-100">
-              OA Platform
+            <Link href="/" className="text-xl font-bold text-[#E5E7EB]">
+              <span className="text-gradient">OA Platform</span>
             </Link>
             
             {/* Navigation Links */}
@@ -31,8 +31,8 @@ export function Navbar() {
                 href="/problems"
                 className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   pathname === '/problems' 
-                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' 
-                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-gray-100 dark:hover:bg-slate-700'
+                    ? 'text-[#00FFFF] bg-[#00FFFF]/10' 
+                    : 'text-[#9CA3AF] hover:text-[#00FFFF] hover:bg-[#1C1F2E]'
                 }`}
               >
                 <Code className="w-4 h-4" />
@@ -42,8 +42,8 @@ export function Navbar() {
                 href="/dashboard"
                 className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   pathname === '/dashboard' 
-                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' 
-                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-gray-100 dark:hover:bg-slate-700'
+                    ? 'text-[#00FFFF] bg-[#00FFFF]/10' 
+                    : 'text-[#9CA3AF] hover:text-[#00FFFF] hover:bg-[#1C1F2E]'
                 }`}
               >
                 <LayoutDashboard className="w-4 h-4" />
@@ -53,8 +53,8 @@ export function Navbar() {
                 href="/settings"
                 className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   pathname === '/settings' 
-                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' 
-                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-gray-100 dark:hover:bg-slate-700'
+                    ? 'text-[#00FFFF] bg-[#00FFFF]/10' 
+                    : 'text-[#9CA3AF] hover:text-[#00FFFF] hover:bg-[#1C1F2E]'
                 }`}
               >
                 <Settings className="w-4 h-4" />
@@ -66,13 +66,13 @@ export function Navbar() {
           {/* Center - Search */}
           <div className="flex-1 max-w-lg mx-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#9CA3AF]" />
               <input
                 type="text"
                 placeholder="Search problems..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 text-sm border border-gray-300 dark:border-slate-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 bg-white dark:bg-slate-700"
+                className="w-full pl-10 pr-4 py-2 text-sm border border-[#1C1F2E] rounded-md focus:outline-none focus:ring-2 focus:ring-[#00FFFF] text-[#E5E7EB] placeholder-[#6B7280] bg-[#1C1F2E] hover:border-[#00FFFF]/50 transition-colors"
               />
             </div>
           </div>
@@ -82,7 +82,7 @@ export function Navbar() {
             {/* Theme toggle */}
             <button
               onClick={handleThemeToggle}
-              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md"
+              className="p-2 text-[#9CA3AF] hover:text-[#00FFFF] hover:bg-[#1C1F2E] rounded-md transition-colors"
             >
               {theme === 'dark' ? (
                 <Sun className="w-5 h-5" />
@@ -95,13 +95,13 @@ export function Navbar() {
             <div className="flex items-center space-x-2">
               <Link
                 href="/auth/signin"
-                className="px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-md"
+                className="px-3 py-2 text-sm text-[#9CA3AF] hover:text-[#00FFFF] hover:bg-[#1C1F2E] rounded-md transition-colors"
               >
                 Sign In
               </Link>
               <Link
                 href="/auth/signup"
-                className="px-3 py-2 text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-md"
+                className="px-3 py-2 text-sm text-[#0A0A0A] bg-[#00FFFF] hover:bg-[#00FFFF]/90 rounded-md font-semibold transition-colors"
               >
                 Sign Up
               </Link>

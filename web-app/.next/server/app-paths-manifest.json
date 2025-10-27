@@ -1,0 +1,13 @@
+{
+  "/api/problems/[slug]/route": "app/api/problems/[slug]/route.js",
+  "/api/problems/route": "app/api/problems/route.js",
+  "/api/problems/tags/route": "app/api/problems/tags/route.js",
+  "/auth/signin/page": "app/auth/signin/page.js",
+  "/auth/signup/page": "app/auth/signup/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js",
+  "/problems/[slug]/page": "app/problems/[slug]/page.js",
+  "/problems/page": "app/problems/page.js",
+  "/settings/page": "app/settings/page.js"
+}

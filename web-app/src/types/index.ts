@@ -15,6 +15,12 @@ export interface Problem {
   points: number;
   createdAt: string;
   updatedAt: string;
+  // Project-specific fields
+  type?: 'algorithmic' | 'project';
+  aiAllowed?: boolean;
+  estimatedDuration?: number; // in hours
+  skills?: string[];
+  category?: 'coding' | 'fullstack' | 'frontend' | 'backend' | 'data';
 }
 
 export interface TestCase {
@@ -111,6 +117,10 @@ export interface ProblemFilters {
   search?: string;
   page?: number;
   limit?: number;
+  type?: string; // 'algorithmic' | 'project'
+  aiAllowed?: boolean;
+  duration?: 'short' | 'medium' | 'long';
+  category?: string; // 'coding' | 'fullstack' | 'frontend' | 'backend' | 'data'
 }
 
 // API Response types
